@@ -1,0 +1,31 @@
+img {
+  width: 100%;
+}
+.content-card {
+  padding: 0;
+  margin: 10px;
+  border: 1px solid lightgrey;
+  border-radius: 10px;
+}
+.tv,
+.movie {
+  color: #fff;
+  text-align: center;
+  font-size: 24px;
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
+}
+.tv {
+  background-color: blue;
+}
+.movie {
+  background-color: orange;
+}
+.content-card h2 {
+  font-size: 18px;
+  text-align: center;
+  margin: 15px 0;
+}
+.content-description {
+  padding: 10px;
+}
