@@ -14,8 +14,7 @@ export default function Search({ onSearch, query }) {
     return {
       headers: {
         accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZDVmNWYzMGYwODU0ZTFjMWY0YjVlMmU0NjhjZjJkOSIsInN1YiI6IjY2NmIyYWViOGVhZTgwNTJhZGNkMjE3YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WFYHSyl3xEQzK_-_gCITj93DkugI0KNsIUXugq0dqjs"
+        Authorization: process.env.REACT_APP_MOVIEDB_KEY
       }
     };
   }, []);
