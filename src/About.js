@@ -6,7 +6,7 @@ const About = () => {
     <div>
       <Navigation />
       <h1>About</h1>
-      <p>This is a summary of the project.</p>
+      <p>This is a summary of the project. To be completed</p>
     </div>
   );
 };
