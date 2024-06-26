@@ -33,8 +33,17 @@ export default function Person({ items }) {
                   <h4>{name || original_name}</h4>
 
                   <p className="table-person-details">
-                    <strong>{known_for_department}</strong> | Known for:{" "}
-                    {known_for[0].name}
+                    <strong>{known_for_department}</strong>
+                  </p>
+                  <p className="table-person-details">
+                    {known_for.map(
+                      (kfItem, index) =>
+                        (kfItem.title || kfItem.original_title) && (
+                          <span key={index} className="title-tags">
+                            {kfItem.title || kfItem.original_title}
+                          </span>
+                        )
+                    )}
                   </p>
                 </td>
               </tr>

@@ -4,7 +4,6 @@ img {
 }
 .table-results td,
 .table-results tr,
-.table-results span,
 .table-results h4 {
   padding: 0;
 }
@@ -50,6 +49,16 @@ img {
 .person {
   font-size: small;
   opacity: 0.8;
+}
+
+.title-tags {
+  background-color: rgb(186, 186, 186);
+  font-weight: bold;
+  color: #fff;
+  display: inline-block;
+  margin: 3px 3px 3px 0;
+  padding: 3px 5px;
+  border-radius: 5px;
 }
 
 /*old
