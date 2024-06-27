@@ -25,7 +25,8 @@ export default function Title({ items }) {
               title,
               poster_path,
               overview,
-              release_date
+              release_date,
+              first_air_date
             } = item; // Deconstructing each item in the data array
 
             const poster = `https://image.tmdb.org/t/p/w1280${poster_path}`;
@@ -43,7 +44,7 @@ export default function Title({ items }) {
                   <h4>
                     {name || title}{" "}
                     <span className="table-release-date">
-                      <DateToYear fullDate={release_date} />
+                      <DateToYear fullDate={release_date || first_air_date} />
                     </span>
                   </h4>
 

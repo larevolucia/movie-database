@@ -21,6 +21,15 @@ export default function Person({ items }) {
 
             const headshot = `https://image.tmdb.org/t/p/w1280${profile_path}`;
             const altText = `Poster of ${name || original_name}`;
+            const knownForTitles = known_for
+              ? known_for
+                  .map(
+                    (item) =>
+                      item?.title || item?.original_title || item?.name || ""
+                  )
+                  .filter((title) => title)
+              : [];
+            const knownForList = knownForTitles.join(", ");
 
             return (
               <tr key={index}>
@@ -35,16 +44,11 @@ export default function Person({ items }) {
                   <p className="table-person-details">
                     <strong>{known_for_department}</strong>
                   </p>
-                  <p className="table-person-details">
-                    {known_for.map(
-                      (kfItem, index) =>
-                        (kfItem.title || kfItem.original_title) && (
-                          <span key={index} className="title-tags">
-                            {kfItem.title || kfItem.original_title}
-                          </span>
-                        )
-                    )}
-                  </p>
+                  {knownForTitles.length > 0 && (
+                    <p className="table-person-details">
+                      <em>Known for:</em> {knownForList}
+                    </p>
+                  )}
                 </td>
               </tr>
             );
