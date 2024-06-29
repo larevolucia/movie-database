@@ -1,15 +1,21 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Poster from "./Poster";
 import DateToYear from "./DateToYear";
 
 export default function Title({ items }) {
   console.log(items);
+  const navigate = useNavigate();
 
   const truncateText = (text, maxLength) => {
     if (text.length <= maxLength) {
       return text;
     }
     return text.substring(0, maxLength) + "...";
+  };
+
+  const handleRowClick = (mediaType, id) => {
+    navigate(`/details/${mediaType}/${id}`);
   };
 
   return (
@@ -20,6 +26,7 @@ export default function Title({ items }) {
         <tbody>
           {items.map((item, index) => {
             const {
+              id,
               media_type,
               name,
               title,
@@ -33,7 +40,7 @@ export default function Title({ items }) {
             const altText = `Poster of ${name || title}`;
 
             return (
-              <tr key={index}>
+              <tr key={index} onClick={() => handleRowClick(media_type, id)}>
                 <td className="image-cell">
                   {poster_path !== null && poster_path !== undefined && (
                     <Poster imageUrl={poster} altText={altText} />

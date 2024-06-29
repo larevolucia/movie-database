@@ -1,8 +1,8 @@
-//import { Link } from "react-router-dom";
-import Search from "./Search";
+import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
+import Search from "./Search";
 
-const Navigation = ({ onSearch }) => {
+const Navigation = ({ onSearch, query }) => {
   return (
     <Navbar bg="light" expand="lg">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -17,22 +17,10 @@ const Navigation = ({ onSearch }) => {
         </div>
       </Navbar.Collapse>
       <div className="ml-auto">
-        <Search onSearch={onSearch} />
+        <Search onSearch={onSearch} query={query} />
       </div>
     </Navbar>
   );
 };
 
 export default Navigation;
-
-//  <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-//    <NavDropdown.Item href="#action/3.1">Movies</NavDropdown.Item>
-//    <NavDropdown.Item href="#action/3.2">
-//      TV Shows
-//    </NavDropdown.Item>
-//    <NavDropdown.Item href="#action/3.3">People</NavDropdown.Item>
-//    <NavDropdown.Divider />
-//    <NavDropdown.Item href="#action/3.4">
-//      What's on
-//    </NavDropdown.Item>
-//  </NavDropdown>;

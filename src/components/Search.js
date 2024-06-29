@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import useDebounce from "./useDebounce";
 
 export default function Search({ onSearch, query }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [keyword, setKeyword] = useState(query || "");
+  const debouncedKeyword = useDebounce(keyword, 500); // Debounce the keyword by 500ms
 
   const apiEndpoint = "https://api.themoviedb.org/3"; // Fixed the apiEndpoint
 
@@ -14,13 +17,13 @@ export default function Search({ onSearch, query }) {
     return {
       headers: {
         accept: "application/json",
-        Authorization: process.env.REACT_APP_MOVIEDB_KEY
+        Authorization: `Bearer ${process.env.REACT_APP_MOVIEDB_KEY}`
       }
     };
   }, []);
 
   const handleResponse = useCallback(
-    async (response) => {
+    (response) => {
       const { results } = response.data;
       onSearch(results);
     },
@@ -29,38 +32,45 @@ export default function Search({ onSearch, query }) {
 
   const fetchResults = useCallback(
     async (searchKeyword) => {
-      const apiURL = `${apiEndpoint}/search/multi?query=${searchKeyword}&include_adult=false&language=en-US&page=1`; // Fixed the apiURL and use searchKeyword
+      const apiURL = `${apiEndpoint}/search/multi?query=${searchKeyword}&include_adult=false&language=en-US&page=1`;
       try {
         const response = await axios.get(apiURL, headers);
-        return handleResponse(response);
+        handleResponse(response);
       } catch (error) {
-        return console.error(error);
+        console.error(error);
       }
     },
     [headers, handleResponse]
   );
 
   useEffect(() => {
-    if (query) {
-      fetchResults(query); // Ensure fetchResults is called correctly
+    const queryParam = new URLSearchParams(location.search).get("query");
+    if (queryParam) {
+      setKeyword(queryParam);
+      fetchResults(queryParam);
     }
-  }, [query, fetchResults]);
+  }, [location.search, fetchResults]);
 
-  const handleSubmit = async (event) => {
+  useEffect(() => {
+    if (debouncedKeyword) {
+      navigate(`/?query=${debouncedKeyword}`);
+      fetchResults(debouncedKeyword);
+    }
+  }, [debouncedKeyword, navigate, fetchResults]);
+
+  const handleSubmit = (event) => {
     event.preventDefault();
-
-    if (keyword !== "") {
-      navigate(`/${keyword}`);
-      fetchResults(keyword); // Call fetchResults on form submission
+    if (keyword) {
+      navigate(`/?query=${keyword}`);
+      fetchResults(keyword);
     } else {
       alert("Empty search");
     }
   };
 
-  function handleKeywordChange(event) {
-    event.preventDefault();
+  const handleKeywordChange = (event) => {
     setKeyword(event.target.value);
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="d-flex" role="search">
@@ -68,7 +78,7 @@ export default function Search({ onSearch, query }) {
         className="form-control me-2"
         type="search"
         placeholder="Search for movie, tv or cast"
-        value={keyword} // Bind input value to keyword
+        value={keyword}
         onChange={handleKeywordChange}
         aria-label="Search"
       />
