@@ -1,8 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Headshot from "./Headshot";
 
 export default function Person({ items }) {
   console.log(items);
+  const navigate = useNavigate();
+  const handleRowClick = (mediaType, id) => {
+    navigate(`/details/${mediaType}/${id}`);
+  };
   return (
     <div className="People">
       <h3 className="results-type">People</h3>
@@ -12,6 +17,8 @@ export default function Person({ items }) {
         <tbody>
           {items.map((item, index) => {
             const {
+              id,
+              media_type,
               name,
               original_name,
               known_for_department,
@@ -32,7 +39,7 @@ export default function Person({ items }) {
             const knownForList = knownForTitles.join(", ");
 
             return (
-              <tr key={index}>
+              <tr key={index} onClick={() => handleRowClick(media_type, id)}>
                 <td className="table-cell">
                   {profile_path !== null && profile_path !== undefined && (
                     <Headshot imageUrl={headshot} altText={altText} />
