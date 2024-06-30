@@ -12,8 +12,7 @@ function Details() {
       method: "GET",
       headers: {
         accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1OTU3YmE3YjJmYWNjM2Y2Y2I1MDQ5MjE3MGQ0Yzk5OCIsIm5iZiI6MTcxOTY3MTgyNy41NTkxNjQsInN1YiI6IjY2NmIyYWViOGVhZTgwNTJhZGNkMjE3YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.eT9gnnL4gzChGPk_rMGS_swq3l4sFNQVQVdY_xXQoJk"
+        Authorization: `Bearer ${process.env.REACT_APP_MOVIEDB_KEY}`
       }
     };
     fetch(
