@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Headshot from "./Headshot";
 
-export default function Person({ items }) {
+export default function PersonList({ items }) {
   console.log(items);
   const navigate = useNavigate();
   const handleRowClick = (mediaType, id) => {

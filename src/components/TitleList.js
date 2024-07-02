@@ -3,16 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Poster from "./Poster";
 import DateToYear from "./DateToYear";
 
-export default function Title({ items }) {
-  console.log(items);
+export default function TitleList({ items }) {
   const navigate = useNavigate();
-
-  const truncateText = (text, maxLength) => {
-    if (text.length <= maxLength) {
-      return text;
-    }
-    return text.substring(0, maxLength) + "...";
-  };
 
   const handleRowClick = (mediaType, id) => {
     navigate(`/details/${mediaType}/${id}`);
@@ -34,7 +26,7 @@ export default function Title({ items }) {
               overview,
               release_date,
               first_air_date
-            } = item; // Deconstructing each item in the data array
+            } = item;
 
             const poster = `https://image.tmdb.org/t/p/w1280${poster_path}`;
             const altText = `Poster of ${name || title}`;
@@ -42,7 +34,7 @@ export default function Title({ items }) {
             return (
               <tr key={index} onClick={() => handleRowClick(media_type, id)}>
                 <td className="image-cell">
-                  {poster_path !== null && poster_path !== undefined && (
+                  {poster_path && (
                     <Poster imageUrl={poster} altText={altText} />
                   )}
                 </td>
@@ -54,9 +46,10 @@ export default function Title({ items }) {
                       <DateToYear fullDate={release_date || first_air_date} />
                     </span>
                   </h4>
-
                   <p className="content-description">
-                    {truncateText(overview, 150)}
+                    {overview.length > 150
+                      ? `${overview.substring(0, 150)}...`
+                      : overview}
                   </p>
                 </td>
               </tr>

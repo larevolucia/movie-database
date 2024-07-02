@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/Results.css";
-import Title from "./Title";
-import Person from "./Person";
+import TitleList from "./TitleList";
+import PersonList from "./PersonList";
 
 export default function Results({ data, keyword }) {
   const moviesAndTv = data.filter(
@@ -16,9 +16,9 @@ export default function Results({ data, keyword }) {
       </h2>
       <hr className="hr-header" />
       {moviesAndTv.length !== 0 ? (
-        <Title items={moviesAndTv} />
+        <TitleList items={moviesAndTv} />
       ) : persons.length !== 0 ? (
-        <Person items={persons} />
+        <PersonList items={persons} />
       ) : (
         <p>No results found</p>
       )}
