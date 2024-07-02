@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import useDebounce from "./useDebounce";
+import axios from "axios";
 
 export default function Search({ onSearch, query }) {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ export default function Search({ onSearch, query }) {
   const [keyword, setKeyword] = useState(query || "");
   const debouncedKeyword = useDebounce(keyword, 500); // Debounce the keyword by 500ms
 
-  const apiEndpoint = "https://api.themoviedb.org/3"; // Fixed the apiEndpoint
+  const apiEndpoint = "https://api.themoviedb.org/3";
 
   const headers = useMemo(() => {
     return {

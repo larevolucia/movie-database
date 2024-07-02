@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
 import Results from "./Results";
 import Navigation from "./Navigation";
+import Carousel from "./Carousel";
+import axios from "axios";
 
 export default function Home() {
   const [searchResults, setSearchResults] = useState([]);
@@ -29,15 +30,19 @@ export default function Home() {
   useEffect(() => {
     if (queryParam) {
       fetchResults(queryParam);
+    } else {
+      setSearchResults([]); // Reset search results if no query
     }
   }, [queryParam, fetchResults]);
 
   return (
-    <div className="Home">
+    <div className="Home" data-testid="home">
       <Navigation onSearch={setSearchResults} query={queryParam} />
       <main>
-        {searchResults.length > 0 && (
+        {searchResults.length > 0 ? (
           <Results data={searchResults} keyword={queryParam} />
+        ) : (
+          <Carousel />
         )}
       </main>
     </div>

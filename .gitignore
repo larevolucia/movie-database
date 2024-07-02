@@ -2,12 +2,13 @@
 
 # dependencies
 /node_modules
-/src/__tests__
 /.pnp
 .pnp.js
 
 # testing
 /coverage
+/src/__tests__
+
 
 # production
 /build

@@ -4,7 +4,7 @@ import Search from "./Search";
 
 const Navigation = ({ onSearch, query }) => {
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" data-testid="nav-bar">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav" className="w-100">
         <div className="d-flex w-100 justify-content-between">
