@@ -15,8 +15,13 @@ export default function Results({ data, keyword }) {
         Results for: <span className="query">{keyword}</span>
       </h2>
       <hr className="hr-header" />
-      <Title items={moviesAndTv} />
-      <Person items={persons} />
+      {moviesAndTv.length !== 0 ? (
+        <Title items={moviesAndTv} />
+      ) : persons.length !== 0 ? (
+        <Person items={persons} />
+      ) : (
+        <p>No results found</p>
+      )}
     </div>
   );
 }

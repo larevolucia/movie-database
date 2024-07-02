@@ -57,7 +57,7 @@ export default function Home() {
     <div className="Home" data-testid="home">
       <Navigation onSearch={setSearchResults} query={queryParam} />
       <main>
-        {searchResults.length > 0 ? (
+        {queryParam ? (
           <Results data={searchResults} keyword={queryParam} />
         ) : (
           <Hero data={trendingTitles} />
