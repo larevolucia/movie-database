@@ -1,39 +1,57 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import Results from "./Results";
 import Navigation from "./Navigation";
-import Carousel from "./Carousel";
+import Hero from "./Hero";
 import axios from "axios";
 
 export default function Home() {
   const [searchResults, setSearchResults] = useState([]);
+  const [trendingTitles, setTrendingTitles] = useState([]);
   const location = useLocation();
   const queryParam = new URLSearchParams(location.search).get("query");
 
-  const fetchResults = useCallback(async (searchKeyword) => {
-    const apiEndpoint = "https://api.themoviedb.org/3";
-    const apiURL = `${apiEndpoint}/search/multi?query=${searchKeyword}&include_adult=false&language=en-US&page=1`;
-    const headers = {
+  const apiEndpoint = "https://api.themoviedb.org/3";
+  const headers = useMemo(() => {
+    return {
       headers: {
         accept: "application/json",
         Authorization: `Bearer ${process.env.REACT_APP_MOVIEDB_KEY}`
       }
     };
+  }, []);
+
+  const fetchTrendingTitles = useCallback(async () => {
+    const trendingURL = `${apiEndpoint}/trending/all/week?language=en-US`;
     try {
-      const response = await axios.get(apiURL, headers);
-      setSearchResults(response.data.results);
+      const response = await axios.get(trendingURL, headers);
+      setTrendingTitles(response.data.results);
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [headers]);
+
+  const fetchResults = useCallback(
+    async (searchKeyword) => {
+      const queryURL = `${apiEndpoint}/search/multi?query=${searchKeyword}&include_adult=false&language=en-US&page=1`;
+      try {
+        const response = await axios.get(queryURL, headers);
+        setSearchResults(response.data.results);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [headers]
+  );
 
   useEffect(() => {
     if (queryParam) {
       fetchResults(queryParam);
     } else {
       setSearchResults([]); // Reset search results if no query
+      fetchTrendingTitles(); // Fetch trending titles when there is no query
     }
-  }, [queryParam, fetchResults]);
+  }, [queryParam, fetchResults, fetchTrendingTitles]);
 
   return (
     <div className="Home" data-testid="home">
@@ -42,7 +60,7 @@ export default function Home() {
         {searchResults.length > 0 ? (
           <Results data={searchResults} keyword={queryParam} />
         ) : (
-          <Carousel />
+          <Hero data={trendingTitles} />
         )}
       </main>
     </div>
