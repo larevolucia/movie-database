@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Carousel({ data }) {
+export default function Hero({ data }) {
   const navigate = useNavigate();
   console.log(data);
   if (data) {
