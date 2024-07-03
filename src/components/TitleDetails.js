@@ -5,7 +5,7 @@ function TitleDetails({ mediaType, details }) {
   // const { media_type } = useParams();
 
   return (
-    <div>
+    <div data-testid="title-details">
       <h1>{mediaType === "movie" ? details.title : details.name}</h1>
       <p>{details.overview}</p>
       <img

@@ -1,9 +1,10 @@
+// Navigation.js
 import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Search from "./Search";
 
-const Navigation = ({ onSearch, query }) => {
+const Navigation = ({ onSearch, query, onFormSubmit }) => {
   return (
     <Navbar bg="light" expand="lg" data-testid="nav-bar">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -22,7 +23,7 @@ const Navigation = ({ onSearch, query }) => {
         </div>
       </Navbar.Collapse>
       <div className="ml-auto">
-        <Search onSearch={onSearch} query={query} />
+        <Search onSearch={onSearch} query={query} onFormSubmit={onFormSubmit} />
       </div>
     </Navbar>
   );

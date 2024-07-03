@@ -1,3 +1,4 @@
+// TitleList.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Poster from "./Poster";
@@ -6,7 +7,9 @@ import DateToYear from "./DateToYear";
 export default function TitleList({ items }) {
   const navigate = useNavigate();
 
-  const handleRowClick = (mediaType, id) => {
+  const handleRowClick = (event, mediaType, id) => {
+    event.preventDefault();
+    console.log(`Navigating to /details/${mediaType}/${id}`);
     navigate(`/details/${mediaType}/${id}`);
   };
 
@@ -32,7 +35,10 @@ export default function TitleList({ items }) {
             const altText = `Poster of ${name || title}`;
 
             return (
-              <tr key={index} onClick={() => handleRowClick(media_type, id)}>
+              <tr
+                key={index}
+                onClick={(event) => handleRowClick(event, media_type, id)}
+              >
                 <td className="image-cell">
                   {poster_path && (
                     <Poster imageUrl={poster} altText={altText} />

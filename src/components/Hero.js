@@ -6,6 +6,8 @@ export default function Carousel({ data }) {
   console.log(data);
   if (data) {
     const handleRowClick = (mediaType, id) => {
+      console.log(`Navigating to /details/${mediaType}/${id}`);
+
       navigate(`/details/${mediaType}/${id}`);
     };
 
@@ -24,7 +26,7 @@ export default function Carousel({ data }) {
             ></button>
           ))}
         </div>
-        <div className="carousel-inner">
+        <div className="carousel-inner" data-testid="hero">
           {data.map((item, index) => {
             const { id, media_type, name, title, backdrop_path } = item;
             const landscapeImg = `https://image.tmdb.org/t/p/w1280${backdrop_path}`;
