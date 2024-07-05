@@ -1,9 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/Hero.css";
 
 export default function Hero({ data }) {
   const navigate = useNavigate();
-  console.log(data);
+  console.log("Trending Titles Data:", JSON.stringify(data, null, 2)); // Improved logging
   if (data) {
     const handleRowClick = (mediaType, id) => {
       console.log(`Navigating to /details/${mediaType}/${id}`);
@@ -42,8 +43,8 @@ export default function Hero({ data }) {
                   className="d-block w-100"
                   alt={altText}
                 />{" "}
-                <div className="carousel-caption d-none d-md-block">
-                  <h2>{name || title}</h2>
+                <div className="carousel-caption">
+                  <h2 className="shadow-text">{name || title}</h2>
                 </div>
               </div>
             );

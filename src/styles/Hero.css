@@ -1,0 +1,10 @@
+.shadow-text {
+  font-size: 1.4em;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+@media (min-width: 768px) {
+  .shadow-text {
+    font-size: 3em;
+  }
+}

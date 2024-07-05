@@ -74,7 +74,12 @@ export default function Search({ onSearch, query, onFormSubmit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="d-flex" role="search">
+    <form
+      onSubmit={handleSubmit}
+      className="d-flex"
+      role="search"
+      data-testid="search-form"
+    >
       <input
         className="form-control me-2"
         type="search"
@@ -83,7 +88,11 @@ export default function Search({ onSearch, query, onFormSubmit }) {
         onChange={handleKeywordChange}
         aria-label="Search"
       />
-      <button className="btn btn-primary" type="submit">
+      <button
+        className="btn btn-primary"
+        type="submit"
+        data-testid="search-submit"
+      >
         <FontAwesomeIcon icon={faMagnifyingGlass} />
       </button>
     </form>
