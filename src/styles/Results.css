@@ -2,20 +2,24 @@ img {
   margin: 0 auto;
   width: 100%;
 }
+
 .table-results td,
 .table-results tr,
 .table-results h4 {
   padding: 0;
 }
+
 .image-cell {
-  width: 150px; /* Adjust this value as needed */
+  width: 150px;
 }
+
 .img-headshot {
   border-radius: 50%;
-  width: 120px; /* Set your desired width */
-  height: 120px; /* Set your desired height */
-  object-fit: cover; /* Ensures the image covers the container */
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
 }
+
 .table-image {
   width: 100%; /* Make the image take up the full width of its container */
   height: auto; /* Maintain the aspect ratio */
@@ -26,6 +30,7 @@ img {
   line-height: 1;
   margin: 20px 0 0 0;
 }
+
 .hr-header {
   margin-top: 0;
 }
@@ -33,10 +38,12 @@ img {
 .query {
   opacity: 0.8;
 }
+
 .table-release-date {
   font-size: small;
   opacity: 0.8;
 }
+
 .content-description,
 .table-person-details {
   font-size: 14px;
@@ -60,19 +67,3 @@ img {
   padding: 3px 5px;
   border-radius: 5px;
 }
-
-/*old
-.content-card {
-  padding: 0;
-  margin: 10px;
-  border: 1px solid lightgrey;
-  border-radius: 10px;
-}
-.
-.content-card h2 {
-  font-size: 18px;
-  text-align: center;
-  margin: 15px 0;
-}
-
-*/

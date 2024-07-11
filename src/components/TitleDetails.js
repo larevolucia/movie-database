@@ -3,14 +3,25 @@ import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin: 20px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 `;
 
 const Poster = styled.img`
-  width: 300px;
-  height: 450px;
-  margin-right: 20px;
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+
+  @media (min-width: 768px) {
+    width: 300px;
+    height: auto;
+    margin-right: 20px;
+    margin-bottom: 0;
+  }
 `;
 
 const Details = styled.div`
@@ -20,13 +31,21 @@ const Details = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin: 0;
+
+  @media (min-width: 768px) {
+    font-size: 2.5rem;
+  }
 `;
 
 const Overview = styled.p`
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 1.5;
+
+  @media (min-width: 768px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const Info = styled.div`

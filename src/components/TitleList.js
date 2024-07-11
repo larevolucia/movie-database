@@ -2,7 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Poster from "./Poster";
-import DateToYear from "./DateToYear";
+import DateToYear from "../formatters/DateToYear";
 
 export default function TitleList({ items }) {
   const navigate = useNavigate();
