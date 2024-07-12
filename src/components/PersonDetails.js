@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { apiEndpoint, getHeaders } from "../utils/apiConfig";
 import FormattedFullDate from "../formatters/FormattedFullDate";
 import useWindowSize from "../hooks/useWindowSize";
+import ContentRail from "./ContentRail";
 import styled from "styled-components";
+import axios from "axios";
 
-const Header = styled.div``;
+const Header = styled.div`
+  padding: 10px 5px;
+`;
 
 const Headshot = styled.img`
   height: auto;
@@ -47,16 +52,35 @@ const Toggler = styled.div`
   }
 `;
 
-function PersonDetails({ mediaType, details }) {
+export default function PersonDetails({ mediaType, details }) {
   // State to track if the full text is shown
   const [isExpanded, setIsExpanded] = useState(false);
   const windowSize = useWindowSize();
   const isSmallScreen = windowSize.width <= 600;
+  const [castTitles, setCastTitles] = useState([]);
+  const [crewTitles, setCrewTitles] = useState([]);
 
   // Function to toggle the expanded state
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
+
+  const fetchTitles = useCallback(async () => {
+    const apiURL = `${apiEndpoint}/person/${details.id}/combined_credits`;
+    try {
+      const response = await axios.get(apiURL, getHeaders());
+      console.log(response.data);
+      setCastTitles(response.data.cast);
+      setCrewTitles(response.data.crew);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [details.id]);
+
+  useEffect(() => {
+    fetchTitles();
+  }, [fetchTitles]);
+
   console.log(details);
   return (
     <div>
@@ -107,7 +131,16 @@ function PersonDetails({ mediaType, details }) {
           </PersonalInfo>
         )}
       </Details>
+      {castTitles && (
+        <ContentRail
+          title="Known For"
+          mediaType={mediaType}
+          data={
+            details.known_for_department === "Acting" ? castTitles : crewTitles
+          }
+          length={24}
+        />
+      )}
     </div>
   );
 }
-export default PersonDetails;
