@@ -3,7 +3,6 @@ import { apiEndpoint, getHeaders } from "../utils/apiConfig";
 import FormattedFullDate from "../formatters/FormattedFullDate";
 import useWindowSize from "../hooks/useWindowSize";
 import ContentRail from "./ContentRail";
-import ParagraphFormatter from "../formatters/ParagraphFormatter";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -54,15 +53,12 @@ const Toggler = styled.div`
 `;
 
 export default function PersonDetails({ mediaType, details }) {
-  // State to track if the full text is shown
-  const formattedBiography = ParagraphFormatter(details.biography);
   const [isExpanded, setIsExpanded] = useState(false);
   const windowSize = useWindowSize();
   const isSmallScreen = windowSize.width <= 600;
   const [castTitles, setCastTitles] = useState([]);
   const [crewTitles, setCrewTitles] = useState([]);
 
-  // Function to toggle the expanded state
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
@@ -83,6 +79,9 @@ export default function PersonDetails({ mediaType, details }) {
     fetchTitles();
   }, [fetchTitles]);
 
+  const formattedBiography = details.biography
+    .split("\n\n")
+    .map((paragraph, index) => <p key={index}>{paragraph}</p>);
   console.log(details);
   return (
     <div>
@@ -113,8 +112,9 @@ export default function PersonDetails({ mediaType, details }) {
           {isSmallScreen
             ? isExpanded
               ? formattedBiography
-              : ` ${formattedBiography.substring(0, 285)}...`
+              : ` ${details.biography.substring(0, 285)}...`
             : formattedBiography}
+
           {isSmallScreen && (
             <Toggler onClick={toggleExpand}>
               {isExpanded ? "See Less" : "See More"}
@@ -124,7 +124,7 @@ export default function PersonDetails({ mediaType, details }) {
         {windowSize.width > 600 && (
           <PersonalInfo>
             <Info>
-              <strong>Born!</strong>{" "}
+              <strong>Born</strong>{" "}
               <FormattedFullDate fullDate={details.birthday} />
             </Info>
             <Info>
