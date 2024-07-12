@@ -1,5 +1,6 @@
 import React from "react";
 import GroupJobs from "../formatters/GroupJobs";
+import useHandleRowClick from "../utils/useHandleRowClick";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -32,12 +33,18 @@ const Character = styled.h3`
 export default function ContentRail({ title, mediaType, data, length }) {
   const titleList = data.slice(0, length);
   const groupedTitles = GroupJobs(titleList);
+  const handleRowClick = useHandleRowClick();
+
+  console.log(groupedTitles);
   return (
     <div>
       <Title>{title}</Title>
       <Container>
         {groupedTitles.map((item, index) => (
-          <Card key={index}>
+          <Card
+            key={index}
+            onClick={(event) => handleRowClick(event, item.media_type, item.id)}
+          >
             <Image
               src={`https://image.tmdb.org/t/p/w200${item.poster_path}`}
               alt={item.title || item.name}
@@ -45,6 +52,7 @@ export default function ContentRail({ title, mediaType, data, length }) {
             <Character>
               {item.character || item.job.map((job, index) => job).join(", ")}
             </Character>
+            {item.media_type}
           </Card>
         ))}
       </Container>

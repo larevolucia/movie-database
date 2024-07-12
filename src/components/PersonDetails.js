@@ -111,7 +111,7 @@ export default function PersonDetails({ mediaType, details }) {
           {isSmallScreen
             ? isExpanded
               ? details.biography
-              : ` ${details.biography.substring(0, 150)}...`
+              : ` ${details.biography.substring(0, 285)}...`
             : details.biography}
           {isSmallScreen && (
             <Toggler onClick={toggleExpand}>

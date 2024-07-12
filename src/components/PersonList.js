@@ -1,13 +1,9 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import Headshot from "./Headshot";
+import useHandleRowClick from "../utils/useHandleRowClick";
 
 export default function PersonList({ items }) {
-  console.log(items);
-  const navigate = useNavigate();
-  const handleRowClick = (mediaType, id) => {
-    navigate(`/details/${mediaType}/${id}`);
-  };
+  const handleRowClick = useHandleRowClick();
   return (
     <div className="People">
       <h3 className="results-type">People</h3>

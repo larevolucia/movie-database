@@ -1,17 +1,11 @@
 // TitleList.js
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import useHandleRowClick from "../utils/useHandleRowClick";
 import Poster from "./Poster";
 import DateToYear from "../formatters/DateToYear";
 
 export default function TitleList({ items }) {
-  const navigate = useNavigate();
-
-  const handleRowClick = (event, mediaType, id) => {
-    event.preventDefault();
-    console.log(`Navigating to /details/${mediaType}/${id}`);
-    navigate(`/details/${mediaType}/${id}`);
-  };
+  const handleRowClick = useHandleRowClick();
 
   return (
     <div className="Titles">

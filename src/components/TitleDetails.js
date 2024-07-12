@@ -57,6 +57,8 @@ const InfoLabel = styled.span`
 `;
 
 function TitleDetails({ mediaType, details }) {
+  console.log(details);
+
   return (
     <Container data-testid="title-details">
       <Poster
@@ -68,10 +70,12 @@ function TitleDetails({ mediaType, details }) {
         <Info>
           <InfoLabel>Release Date:</InfoLabel> {details.release_date}
         </Info>
-        <Info>
-          <InfoLabel>Genres:</InfoLabel>{" "}
-          {details.genres.map((genre) => genre.name).join(", ")}
-        </Info>
+        {details.genres !== undefined ? (
+          <Info>
+            <InfoLabel>Genres:</InfoLabel>{" "}
+            {details.genres.map((genre) => genre.name).join(", ")}
+          </Info>
+        ) : null}
         <Info>
           <InfoLabel>Rating:</InfoLabel> {details.vote_average}
         </Info>
