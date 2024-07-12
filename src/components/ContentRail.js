@@ -35,7 +35,6 @@ export default function ContentRail({ title, mediaType, data, length }) {
   const groupedTitles = GroupJobs(titleList);
   const handleRowClick = useHandleRowClick();
 
-  console.log(groupedTitles);
   return (
     <div>
       <Title>{title}</Title>
@@ -50,9 +49,8 @@ export default function ContentRail({ title, mediaType, data, length }) {
               alt={item.title || item.name}
             />
             <Character>
-              {item.character || item.job.map((job, index) => job).join(", ")}
+              {item.character || item.job.map((job) => job).join(", ")}
             </Character>
-            {item.media_type}
           </Card>
         ))}
       </Container>
