@@ -3,6 +3,7 @@ import { apiEndpoint, getHeaders } from "../utils/apiConfig";
 import FormattedFullDate from "../formatters/FormattedFullDate";
 import useWindowSize from "../hooks/useWindowSize";
 import ContentRail from "./ContentRail";
+import ParagraphFormatter from "../formatters/ParagraphFormatter";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -54,6 +55,7 @@ const Toggler = styled.div`
 
 export default function PersonDetails({ mediaType, details }) {
   // State to track if the full text is shown
+  const formattedBiography = ParagraphFormatter(details.biography);
   const [isExpanded, setIsExpanded] = useState(false);
   const windowSize = useWindowSize();
   const isSmallScreen = windowSize.width <= 600;
@@ -110,9 +112,9 @@ export default function PersonDetails({ mediaType, details }) {
         <Biography>
           {isSmallScreen
             ? isExpanded
-              ? details.biography
-              : ` ${details.biography.substring(0, 285)}...`
-            : details.biography}
+              ? formattedBiography
+              : ` ${formattedBiography.substring(0, 285)}...`
+            : formattedBiography}
           {isSmallScreen && (
             <Toggler onClick={toggleExpand}>
               {isExpanded ? "See Less" : "See More"}
