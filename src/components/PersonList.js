@@ -35,7 +35,10 @@ export default function PersonList({ items }) {
             const knownForList = knownForTitles.join(", ");
 
             return (
-              <tr key={index} onClick={() => handleRowClick(media_type, id)}>
+              <tr
+                key={index}
+                onClick={(event) => handleRowClick(event, media_type, id)}
+              >
                 <td className="table-cell">
                   {profile_path !== null && profile_path !== undefined && (
                     <Headshot imageUrl={headshot} altText={altText} />
