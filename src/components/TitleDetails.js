@@ -1,11 +1,11 @@
-import React from "react";
-// import React, { useCallback, useEffect, useState } from "react";
-// import { apiEndpoint, getHeaders } from "../utils/apiConfig";
+// import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { apiEndpoint, getHeaders } from "../utils/apiConfig";
 import useWindowSize from "../hooks/useWindowSize";
-// import ContentRail from "./ContentRail";
+import ContentRail from "./ContentRail";
 import styled from "styled-components";
 import DateToYear from "../formatters/DateToYear";
-// import axios from "axios";
+import axios from "axios";
 
 const HeaderInfo = styled.ul`
     align-items: center;
@@ -61,12 +61,29 @@ const Info = styled.p`
 function TitleDetails({ mediaType, details }) {
   console.log(details);
   const windowSize = useWindowSize();
-  const roundedVoteAverage = Math.round(details.vote_average).toFixed(1);
-  console.log(details.vote_average);
+  const [recommendations, setRecommendations] = useState([]);
+  const formattedVoteAverage = Math.floor(details.vote_average).toFixed(1);
 
   const formattedOverview = details.overview
     .split("\n\n")
     .map((paragraph, index) => <p key={index}>{paragraph}</p>);
+
+  const fetchTitles = useCallback(async () => {
+    const apiURL = `${apiEndpoint}/${mediaType}/${details.id}/recommendations`;
+    try {
+      const response = await axios.get(apiURL, getHeaders());
+      console.log(response.data);
+      setRecommendations(response.data.results);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [details.id, mediaType]);
+
+  console.log(recommendations);
+
+  useEffect(() => {
+    fetchTitles();
+  }, [fetchTitles]);
 
   return (
     <div data-testid="title-details">
@@ -75,9 +92,24 @@ function TitleDetails({ mediaType, details }) {
         <HeaderInfo>
           <HeaderInfoTag>{mediaType}</HeaderInfoTag>
           <HeaderInfoTag>
-            <DateToYear fullDate={details.release_date} />
+            {mediaType !== "movie" ? (
+              <React.Fragment>
+                <DateToYear fullDate={details.first_air_date} />-
+                <DateToYear fullDate={details.last_air_date} />
+              </React.Fragment>
+            ) : (
+              <DateToYear fullDate={details.release_date} />
+            )}
           </HeaderInfoTag>
-          <HeaderInfoTag>{details.runtime}m</HeaderInfoTag>
+          <HeaderInfoTag>
+            {mediaType !== "movie" ? (
+              <React.Fragment>
+                {details.number_of_seasons} Seasons
+              </React.Fragment>
+            ) : (
+              <React.Fragment>{details.runtime}m</React.Fragment>
+            )}
+          </HeaderInfoTag>
         </HeaderInfo>
       </Header>
       <Details>
@@ -95,7 +127,7 @@ function TitleDetails({ mediaType, details }) {
                 </Info>
               ) : null}
               <Info>
-                <strong>Rating:</strong> {roundedVoteAverage}
+                <strong>Rating:</strong> {formattedVoteAverage}
               </Info>
             </MovieInfo>
           )}
@@ -110,11 +142,19 @@ function TitleDetails({ mediaType, details }) {
               </Info>
             ) : null}
             <Info>
-              <strong>Rating:</strong> {roundedVoteAverage}
+              <strong>Rating:</strong> {formattedVoteAverage}
             </Info>
           </MovieInfo>
         )}
       </Details>
+      {
+        <ContentRail
+          title="Recomendations"
+          mediaType={mediaType}
+          data={recommendations}
+          length={12}
+        />
+      }
     </div>
   );
 }
