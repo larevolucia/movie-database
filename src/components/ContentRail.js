@@ -4,19 +4,30 @@ import useHandleRowClick from "../utils/useHandleRowClick";
 import styled from "styled-components";
 
 const Container = styled.div`
+  margin: 15px 0;
+`;
+const Rail = styled.div`
   display: flex;
   overflow-x: scroll;
   padding: 0 10px 20px 10px;
 `;
-
-const Title = styled.h2`
+const Title = styled.h3`
   padding-left: 10px;
+  font-size: 18px;
+
+  @media (min-width: 900px) {
+    font-size: 25px;
+  }
 `;
 
 const Card = styled.div`
   flex: 0 0 auto;
-  width: 200px;
+  width: 100px;
   margin-right: 20px;
+
+  @media (min-width: 900px) {
+    width: 200px;
+  }
 `;
 
 const Image = styled.img`
@@ -24,11 +35,15 @@ const Image = styled.img`
   border-radius: 8px;
 `;
 
-const Character = styled.h3`
-  font-size: 16px;
+const Character = styled.h4`
+  font-size: 14px;
   text-align: center;
   margin: 10px 0;
   color: gray;
+
+  @media (min-width: 900px) {
+    font-size: 16px;
+  }
 `;
 
 export default function ContentRail({ title, mediaType, data, length }) {
@@ -42,9 +57,9 @@ export default function ContentRail({ title, mediaType, data, length }) {
   const groupedTitles = GroupJobs(titleList);
 
   return (
-    <div>
+    <Container>
       <Title>{title}</Title>
-      <Container>
+      <Rail>
         {mediaType === "person"
           ? groupedTitles.map((item, index) => (
               <Card
@@ -77,7 +92,7 @@ export default function ContentRail({ title, mediaType, data, length }) {
                 />
               </Card>
             ))}
-      </Container>
-    </div>
+      </Rail>
+    </Container>
   );
 }
