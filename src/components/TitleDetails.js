@@ -149,7 +149,7 @@ function TitleDetails({ mediaType, details }) {
       </Details>
       {
         <ContentRail
-          title="Recomendations"
+          title="Recommendations"
           mediaType={mediaType}
           data={recommendations}
           length={12}
