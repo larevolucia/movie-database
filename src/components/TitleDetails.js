@@ -73,7 +73,14 @@ function TitleDetails({ mediaType, details }) {
     try {
       const response = await axios.get(apiURL, getHeaders());
       console.log(response.data);
-      setRecommendations(response.data.results);
+      // Format the recommendation data here
+      const formattedRecommendations = response.data.results.map((item) => ({
+        id: item.id,
+        name: item.name || item.title, // Handle both TV shows and movies
+        media_type: item.media_type,
+        poster_path: item.poster_path // Include poster path if available
+      }));
+      setRecommendations(formattedRecommendations);
     } catch (error) {
       console.error(error);
     }
@@ -101,15 +108,12 @@ function TitleDetails({ mediaType, details }) {
               <DateToYear fullDate={details.release_date} />
             )}
           </HeaderInfoTag>
-          <HeaderInfoTag>
-            {mediaType !== "movie" ? (
-              <React.Fragment>
-                {details.number_of_seasons} Seasons
-              </React.Fragment>
-            ) : (
-              <React.Fragment>{details.runtime}m</React.Fragment>
-            )}
-          </HeaderInfoTag>
+
+          {mediaType !== "movie" ? (
+            <HeaderInfoTag>{details.number_of_seasons} Seasons</HeaderInfoTag>
+          ) : (
+            <HeaderInfoTag>{details.runtime}m</HeaderInfoTag>
+          )}
         </HeaderInfo>
       </Header>
       <Details>
@@ -147,14 +151,14 @@ function TitleDetails({ mediaType, details }) {
           </MovieInfo>
         )}
       </Details>
-      {
+      {recommendations.length > 0 && (
         <ContentRail
           title="Recommendations"
           mediaType={mediaType}
           data={recommendations}
           length={12}
         />
-      }
+      )}
     </div>
   );
 }
