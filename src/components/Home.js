@@ -4,8 +4,10 @@ import Results from "./Results";
 import Hero from "./Hero";
 import axios from "axios";
 import { apiEndpoint, getHeaders } from "../utils/apiConfig";
+import ContentRail from "./ContentRail";
 
 export default function Home({ queryParam, results }) {
+  const [heroTitles, setHeroTitles] = useState([]);
   const [trendingTitles, setTrendingTitles] = useState([]);
 
   // function to shuffle Trending titles from API response
@@ -23,9 +25,10 @@ export default function Home({ queryParam, results }) {
     try {
       const response = await axios.get(trendingURL, getHeaders());
       const fetchedTitles = response.data.results; // Store fetched data in a variable
+      setTrendingTitles(fetchedTitles);
       const shuffledTitles = shuffle(fetchedTitles); // Shuffle the fetched data
       const selectedTitles = shuffledTitles.slice(0, 4); // Select 4 random titles
-      setTrendingTitles(selectedTitles); // Update state with selected titles
+      setHeroTitles(selectedTitles); // Update state with selected titles
       console.log(selectedTitles); // Log the selected titles
     } catch (error) {
       console.error(error);
@@ -44,8 +47,9 @@ export default function Home({ queryParam, results }) {
         {queryParam ? (
           <Results data={results} keyword={queryParam} />
         ) : (
-          <Hero data={trendingTitles} />
+          <Hero data={heroTitles} />
         )}
+        <ContentRail title="Trending" data={trendingTitles} length={12} />
       </main>
     </div>
   );
