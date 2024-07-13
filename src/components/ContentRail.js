@@ -26,7 +26,7 @@ const Card = styled.div`
   margin-right: 20px;
 
   @media (min-width: 900px) {
-    width: 200px;
+    width: 160px;
   }
 `;
 

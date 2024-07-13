@@ -29,6 +29,7 @@ const Poster = styled.img`
   max-width: 200px;
 
   @media (min-width: 900px) {
+    width: 300px;
     height: auto;
     margin-right: 20px;
     margin-bottom: 0;
