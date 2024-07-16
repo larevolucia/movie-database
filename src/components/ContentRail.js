@@ -1,26 +1,44 @@
-import React, { useRef } from "react";
+import React from "react";
 import GroupJobs from "../formatters/GroupJobs";
 import useHandleRowClick from "../utils/useHandleRowClick";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronLeft,
-  faChevronRight
-} from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
   margin: 15px 0;
 `;
+
 const RailContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
 `;
+
 const Rail = styled.div`
   display: flex;
-  overflow-x: hidden;
+  overflow-x: scroll; /* Use scroll instead of hidden to show scrollbar */
   padding: 0 10px 20px 10px;
+  scroll-behavior: smooth; /* Smooth scrolling */
+  user-select: none; /* Prevent text selection while dragging */
+
+  /* Customize scrollbar appearance */
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 `;
+
 const Title = styled.h3`
   padding-left: 10px;
   font-size: 18px;
@@ -56,51 +74,16 @@ const Character = styled.h4`
   }
 `;
 
-const Arrow = styled.button`
-  background-color: rgba(255, 255, 255, 0.5);
-  border: none;
-  cursor: pointer;
-  padding: 10px;
-  border-radius: 50%;
-  z-index: 1;
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.8);
-  }
-`;
-
 export default function ContentRail({ title, mediaType, data, length }) {
-  // Get the row click handler
   const handleRowClick = useHandleRowClick();
-
-  // Optionally slice the data if length is provided
   const titleList = length ? data.slice(0, length) : data;
-
-  // Group the titles using GroupJobs
   const groupedTitles = GroupJobs(titleList);
-
-  //Styled Component Carousel
-  const railRef = useRef(null);
-
-  const scrollLeft = () => {
-    if (railRef.current) {
-      railRef.current.scrollBy({ left: -200, behavior: "smooth" });
-    }
-  };
-
-  const scrollRight = () => {
-    if (railRef.current) {
-      railRef.current.scrollBy({ left: 200, behavior: "smooth" });
-    }
-  };
 
   return (
     <Container>
       <Title>{title}</Title>
       <RailContainer>
-        <Arrow onClick={scrollLeft}>
-          <FontAwesomeIcon icon={faChevronLeft} />
-        </Arrow>
-        <Rail ref={railRef}>
+        <Rail>
           {mediaType === "person"
             ? groupedTitles.map((item, index) => (
                 <Card
@@ -134,10 +117,6 @@ export default function ContentRail({ title, mediaType, data, length }) {
                 </Card>
               ))}
         </Rail>
-        <Arrow onClick={scrollRight}>
-          {" "}
-          <FontAwesomeIcon icon={faChevronRight} />
-        </Arrow>
       </RailContainer>
     </Container>
   );
