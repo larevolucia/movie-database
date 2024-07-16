@@ -4,7 +4,7 @@ import "../styles/Hero.css";
 
 export default function Hero({ data }) {
   const navigate = useNavigate();
-  console.log("Trending Titles Data:", JSON.stringify(data, null, 2)); // Improved logging
+  // console.log("Trending Titles Data:", JSON.stringify(data, null, 2)); // Improved logging
   if (data) {
     const handleRowClick = (mediaType, id) => {
       console.log(`Navigating to /details/${mediaType}/${id}`);
