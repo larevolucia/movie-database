@@ -22,6 +22,8 @@ const Rail = styled.div`
 
   /* Customize scrollbar appearance */
   &::-webkit-scrollbar {
+    display: none;
+    width: 0;
     height: 8px;
   }
 
