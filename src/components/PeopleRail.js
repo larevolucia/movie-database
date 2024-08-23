@@ -129,7 +129,7 @@ export default function PeopleRail({ title, data, length }) {
                   {item.name}
                   </Name>
                   <Character>
-                 {item.character}
+                 {item.character || item.department.join(", ")}
                   </Character>
                   </Card>))}
         </Rail>
