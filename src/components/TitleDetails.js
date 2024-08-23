@@ -5,6 +5,7 @@ import ContentRail from "./ContentRail";
 import PeopleRail from "./PeopleRail";
 import styled from "styled-components";
 import DateToYear from "../formatters/DateToYear";
+import GroupPeople from "../formatters/GroupPeople";
 import axios from "axios";
 
 const HeaderInfo = styled.ul`
@@ -64,6 +65,7 @@ function TitleDetails({ mediaType, details }) {
   const [recommendations, setRecommendations] = useState([]);
   const [cast, setCast] = useState([]);
   const [crew, setCrew] = useState([]);
+  const groupedCrew = GroupPeople(crew)
 
   useEffect(() => {
     if (!details) return; // Avoid proceeding if details are not defined
@@ -99,8 +101,8 @@ function TitleDetails({ mediaType, details }) {
         setCrew(
           response.data.crew.map((item) => ({
             id: item.id,
+            department: item.department,
             name: item.name,
-            character: item.character,
             profile_path: item.profile_path,
           }))
         );
@@ -183,7 +185,7 @@ function TitleDetails({ mediaType, details }) {
         )}
       </Details>
       <PeopleRail title="Cast" data={cast} />
-      <PeopleRail title="Crew" data={crew} />
+      <PeopleRail title="Crew" data={groupedCrew} />
       {recommendations.length > 0 && (
         <ContentRail
           title="Recommendations"
