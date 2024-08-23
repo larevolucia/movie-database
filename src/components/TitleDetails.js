@@ -1,23 +1,23 @@
-// import React from "react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { apiEndpoint, getHeaders } from "../utils/apiConfig";
 import useWindowSize from "../hooks/useWindowSize";
 import ContentRail from "./ContentRail";
+import PeopleRail from "./PeopleRail";
 import styled from "styled-components";
 import DateToYear from "../formatters/DateToYear";
 import axios from "axios";
 
 const HeaderInfo = styled.ul`
-    align-items: center;
-    display: inline-flex;
-    flex-wrap: wrap;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  align-items: center;
+  display: inline-flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }`;
 
 const HeaderInfoTag = styled.li`
-    padding: 0 0.5rem;
+  padding: 0 0.5rem;
 }`;
 
 const Header = styled.div`
@@ -60,38 +60,68 @@ const Info = styled.p`
 `;
 
 function TitleDetails({ mediaType, details }) {
-  console.log(details);
   const windowSize = useWindowSize();
   const [recommendations, setRecommendations] = useState([]);
+  const [cast, setCast] = useState([]);
+  const [crew, setCrew] = useState([]);
+
+  useEffect(() => {
+    if (!details) return; // Avoid proceeding if details are not defined
+
+    const fetchTitles = async () => {
+      const apiURL = `${apiEndpoint}/${mediaType}/${details.id}/recommendations`;
+      try {
+        const response = await axios.get(apiURL, getHeaders());
+        const formattedRecommendations = response.data.results.map((item) => ({
+          id: item.id,
+          name: item.name || item.title,
+          media_type: item.media_type,
+          poster_path: item.poster_path,
+        }));
+        setRecommendations(formattedRecommendations);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fetchCastCrew = async () => {
+      const apiURL = `${apiEndpoint}/${mediaType}/${details.id}/credits`;
+      try {
+        const response = await axios.get(apiURL, getHeaders());
+        setCast(
+          response.data.cast.map((item) => ({
+            id: item.id,
+            name: item.name,
+            character: item.character,
+            profile_path: item.profile_path,
+          }))
+        );
+        setCrew(
+          response.data.crew.map((item) => ({
+            id: item.id,
+            name: item.name,
+            character: item.character,
+            profile_path: item.profile_path,
+          }))
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTitles();
+    fetchCastCrew();
+  }, [details, mediaType]);
+
+  if (!details) return <div>Loading...</div>;
+
   const formattedVoteAverage = Math.floor(details.vote_average).toFixed(1);
 
   const formattedOverview = details.overview
-    .split("\n\n")
-    .map((paragraph, index) => <p key={index}>{paragraph}</p>);
-
-  const fetchTitles = useCallback(async () => {
-    const apiURL = `${apiEndpoint}/${mediaType}/${details.id}/recommendations`;
-    try {
-      const response = await axios.get(apiURL, getHeaders());
-      console.log(response.data);
-      // Format the recommendation data here
-      const formattedRecommendations = response.data.results.map((item) => ({
-        id: item.id,
-        name: item.name || item.title, // Handle both TV shows and movies
-        media_type: item.media_type,
-        poster_path: item.poster_path // Include poster path if available
-      }));
-      setRecommendations(formattedRecommendations);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [details.id, mediaType]);
-
-  console.log(recommendations);
-
-  useEffect(() => {
-    fetchTitles();
-  }, [fetchTitles]);
+    ? details.overview.split("\n\n").map((paragraph, index) => (
+        <p key={index}>{paragraph}</p>
+      ))
+    : "No overview available."; // Fallback if overview is undefined
 
   return (
     <div data-testid="title-details">
@@ -101,10 +131,10 @@ function TitleDetails({ mediaType, details }) {
           <HeaderInfoTag>{mediaType}</HeaderInfoTag>
           <HeaderInfoTag>
             {mediaType !== "movie" ? (
-              <React.Fragment>
+              <>
                 <DateToYear fullDate={details.first_air_date} />-
                 <DateToYear fullDate={details.last_air_date} />
-              </React.Fragment>
+              </>
             ) : (
               <DateToYear fullDate={details.release_date} />
             )}
@@ -125,12 +155,12 @@ function TitleDetails({ mediaType, details }) {
           />
           {windowSize.width <= 600 && (
             <MovieInfo>
-              {details.genres !== undefined ? (
+              {details.genres && (
                 <Info>
                   <strong>Genres:</strong>{" "}
                   {details.genres.map((genre) => genre.name).join(", ")}
                 </Info>
-              ) : null}
+              )}
               <Info>
                 <strong>Rating:</strong> {formattedVoteAverage}
               </Info>
@@ -140,18 +170,20 @@ function TitleDetails({ mediaType, details }) {
         <Synopsis>{formattedOverview}</Synopsis>
         {windowSize.width > 600 && (
           <MovieInfo>
-            {details.genres !== undefined ? (
+            {details.genres && (
               <Info>
                 <strong>Genres:</strong>{" "}
                 {details.genres.map((genre) => genre.name).join(", ")}
               </Info>
-            ) : null}
+            )}
             <Info>
               <strong>Rating:</strong> {formattedVoteAverage}
             </Info>
           </MovieInfo>
         )}
       </Details>
+      <PeopleRail title="Cast" data={cast} />
+      <PeopleRail title="Crew" data={crew} />
       {recommendations.length > 0 && (
         <ContentRail
           title="Recommendations"
