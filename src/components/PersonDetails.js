@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { apiEndpoint, getHeaders } from "../utils/apiConfig";
 import FormattedFullDate from "../formatters/FormattedFullDate";
 import useWindowSize from "../hooks/useWindowSize";
@@ -52,7 +53,10 @@ const Toggler = styled.div`
   }
 `;
 
-export default function PersonDetails({ mediaType, details }) {
+export default function PersonDetails() {
+  const { state } = useLocation();
+  const { id } = useParams();
+  const [details, setDetails] = useState(state?.personDetails || null);
   const [isExpanded, setIsExpanded] = useState(false);
   const windowSize = useWindowSize();
   const isSmallScreen = windowSize.width <= 600;
@@ -63,26 +67,47 @@ export default function PersonDetails({ mediaType, details }) {
     setIsExpanded(!isExpanded);
   };
 
-  const fetchTitles = useCallback(async () => {
-    const apiURL = `${apiEndpoint}/person/${details.id}/combined_credits`;
-    try {
-      const response = await axios.get(apiURL, getHeaders());
-      console.log(response.data);
-      setCastTitles(response.data.cast);
-      setCrewTitles(response.data.crew);
-    } catch (error) {
-      console.error(error);
+  const fetchPersonDetails = useCallback(async () => {
+    if (!details) {
+      const apiURL = `${apiEndpoint}/person/${id}?language=en-US`;
+      try {
+        const response = await axios.get(apiURL, getHeaders());
+        setDetails(response.data);
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }, [details.id]);
+  }, [id, details]);
+
+  const fetchTitles = useCallback(async () => {
+    if (details) {
+      const apiURL = `${apiEndpoint}/person/${details.id}/combined_credits`;
+      try {
+        const response = await axios.get(apiURL, getHeaders());
+        setCastTitles(response.data.cast);
+        setCrewTitles(response.data.crew);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }, [details]);
+
+  useEffect(() => {
+    if (!state?.personDetails) {
+      fetchPersonDetails();
+    }
+  }, [fetchPersonDetails, state?.personDetails]);
 
   useEffect(() => {
     fetchTitles();
   }, [fetchTitles]);
 
+  if (!details) return <div>Loading...</div>;
+
   const formattedBiography = details.biography
     .split("\n\n")
     .map((paragraph, index) => <p key={index}>{paragraph}</p>);
-  console.log(details);
+
   return (
     <div>
       <Header>
@@ -133,16 +158,14 @@ export default function PersonDetails({ mediaType, details }) {
           </PersonalInfo>
         )}
       </Details>
-      {castTitles && (
+      {castTitles.length > 0 || crewTitles.length > 0 ? (
         <ContentRail
           title="Known For"
-          mediaType={mediaType}
-          data={
-            details.known_for_department === "Acting" ? castTitles : crewTitles
-          }
+          mediaType="person"
+          data={details.known_for_department === "Acting" ? castTitles : crewTitles}
           length={24}
         />
-      )}
+      ) : null}
     </div>
   );
 }
