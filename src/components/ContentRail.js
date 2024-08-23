@@ -15,27 +15,26 @@ const RailContainer = styled.div`
 
 const Rail = styled.div`
   display: flex;
-  overflow-x: scroll; /* Use scroll instead of hidden to show scrollbar */
+  overflow-x: scroll;
   padding: 0 10px 20px 10px;
-  scroll-behavior: smooth; /* Smooth scrolling */
-  user-select: none; /* Prevent text selection while dragging */
-
-  /* Customize scrollbar appearance */
+  scroll-behavior: smooth;
+  user-select: none;
+  
   &::-webkit-scrollbar {
     display: none;
     width: 0;
     height: 8px;
   }
-
+  
   &::-webkit-scrollbar-track {
     background: #f1f1f1;
   }
-
+  
   &::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 10px;
   }
-
+  
   &::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
@@ -70,13 +69,14 @@ const Character = styled.h4`
   text-align: center;
   margin: 10px 0;
   color: gray;
-
+  font-weight: normal;
   @media (min-width: 900px) {
     font-size: 16px;
   }
 `;
 
 export default function ContentRail({ title, mediaType, data, length }) {
+
   const handleRowClick = useHandleRowClick();
   const titleList = length ? data.slice(0, length) : data;
   const groupedTitles = GroupJobs(titleList);
@@ -86,7 +86,7 @@ export default function ContentRail({ title, mediaType, data, length }) {
       <Title>{title}</Title>
       <RailContainer>
         <Rail>
-          {mediaType === "person"
+        {mediaType === "person"
             ? groupedTitles.map((item, index) => (
                 <Card
                   key={index}
@@ -99,9 +99,7 @@ export default function ContentRail({ title, mediaType, data, length }) {
                     alt={item.title || item.name}
                   />
                   <Character>
-                    {mediaType === "movie"
-                      ? item.job.join(", ") // Display the aggregated job titles
-                      : item.character}
+                  {item.character || item.job.join(", ")}                  
                   </Character>
                 </Card>
               ))
