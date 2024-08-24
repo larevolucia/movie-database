@@ -6,6 +6,8 @@ import PeopleRail from "./PeopleRail";
 import styled from "styled-components";
 import DateToYear from "../formatters/DateToYear";
 import GroupPeople from "../formatters/GroupPeople";
+import Poster from "./Poster";
+import imgNotFound from "../img/img_not_found.svg"
 import axios from "axios";
 
 const HeaderInfo = styled.ul`
@@ -23,18 +25,6 @@ const HeaderInfoTag = styled.li`
 
 const Header = styled.div`
   padding: 10px 5px;
-`;
-
-const Poster = styled.img`
-  height: auto;
-  max-width: 200px;
-
-  @media (min-width: 900px) {
-    width: 300px;
-    height: auto;
-    margin-right: 20px;
-    margin-bottom: 0;
-  }
 `;
 
 const Details = styled.div`
@@ -66,6 +56,10 @@ function TitleDetails({ mediaType, details }) {
   const [cast, setCast] = useState([]);
   const [crew, setCrew] = useState([]);
   const groupedCrew = GroupPeople(crew)
+  
+  const isFallback = !details.poster_path;
+
+  const poster = details.poster_path === null ? imgNotFound : `https://image.tmdb.org/t/p/w500${details.poster_path}`
 
   useEffect(() => {
     if (!details) return; // Avoid proceeding if details are not defined
@@ -152,8 +146,9 @@ function TitleDetails({ mediaType, details }) {
       <Details>
         <div>
           <Poster
-            src={`https://image.tmdb.org/t/p/w500${details.poster_path}`}
-            alt={mediaType === "movie" ? details.title : details.name}
+            imageUrl={poster}
+            altText={mediaType === "movie" ? details.title : details.name}
+            isFallback={isFallback}
           />
           {windowSize.width <= 600 && (
             <MovieInfo>
