@@ -4,6 +4,7 @@ import axios from "axios";
 import { apiEndpoint, getHeaders } from "../utils/apiConfig"; 
 // import GroupJobs from "../formatters/GroupJobs";
 import styled from "styled-components";
+import headshotNotFound from "../img/headshot_not_found.svg"
 
 const Container = styled.div`
   margin: 15px 0;
@@ -95,6 +96,24 @@ const Character = styled.h4`
   }
 `;
 
+const FallbackHeadshot = styled.div`
+  background-color: #dbdbdb;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image:  url(${headshotNotFound});
+      @media (min-width: 900px) {
+  width: 150px;
+  height: 150px;  }
+
+`;
+
+
+
 export default function PeopleRail({ title, data, length }) {
   const people = length ? data.slice(0, length) : data;
 
@@ -123,26 +142,32 @@ export default function PeopleRail({ title, data, length }) {
   if (data.length === 0) {
     return null;
   }
-  
+
   return (
     <Container>
       <Title>{title}</Title>
       <RailContainer>
-        <Rail>{people.map((item, index) => (
-<Card key={index}
+        <Rail>{people.map((item, index) => {
+          const isFallback = !item.profile_path
+
+          return (
+        
+          
+          <Card key={index}
                   onClick={(event) => fetchPerson(event, item.id)}>
 
-<Headshot
+             {isFallback ? <FallbackHeadshot/> : <Headshot
                     src={`https://image.tmdb.org/t/p/w200${item.profile_path}`}
                     alt={item.name}
-                  />
+                  />}
                   <Name>
                   {item.name}
                   </Name>
                   <Character>
                  {item.character || item.department.join(", ")}
                   </Character>
-                  </Card>))}
+                  </Card>)}               
+                )}
         </Rail>
       </RailContainer>
     </Container>

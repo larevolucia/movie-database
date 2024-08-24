@@ -7,7 +7,6 @@ const FallbackHeadshot = styled.div`
   width: 120px;
   height: 120px;
   object-fit: cover;
-  
   background-size: 50%;
   background-repeat: no-repeat;
   background-position: center;
