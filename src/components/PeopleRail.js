@@ -64,9 +64,13 @@ const Card = styled.div`
 
 const Headshot = styled.img`
  border-radius: 50%;
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
+
+    @media (min-width: 900px) {
+  width: 150px;
+  height: 150px;  }
 `;
 
 const Name = styled.h4`
