@@ -1,6 +1,7 @@
 import React from "react";
 import GroupJobs from "../formatters/GroupJobs";
 import useHandleRowClick from "../utils/useHandleRowClick";
+import imgNotFound from "../img/img_not_found.svg";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -59,11 +60,6 @@ const Card = styled.div`
   }
 `;
 
-const Image = styled.img`
-  width: 100%;
-  border-radius: 8px;
-`;
-
 const Character = styled.h4`
   font-size: 14px;
   text-align: center;
@@ -75,8 +71,22 @@ const Character = styled.h4`
   }
 `;
 
-export default function ContentRail({ title, mediaType, data, length }) {
+const FallbackImage = styled.div`
+  width: 100px;
+  height: 150px;
+  background-color: #dbdbdb;
+  background-image: url(${imgNotFound});
+  background-size: 50%; /* Adjust this to control the size of the SVG */
+  background-repeat: no-repeat;
+  background-position: center;
 
+  @media (min-width: 900px) {
+    width: 160px;
+    height: 240px;
+  }
+`;
+
+export default function ContentRail({ title, mediaType, data, length }) {
   const handleRowClick = useHandleRowClick();
   const titleList = length ? data.slice(0, length) : data;
   const groupedTitles = GroupJobs(titleList);
@@ -86,36 +96,54 @@ export default function ContentRail({ title, mediaType, data, length }) {
       <Title>{title}</Title>
       <RailContainer>
         <Rail>
-        {mediaType === "person"
-            ? groupedTitles.map((item, index) => (
-                <Card
-                  key={index}
-                  onClick={(event) =>
-                    handleRowClick(event, item.media_type, item.id)
-                  }
-                >
-                  <Image
-                    src={`https://image.tmdb.org/t/p/w200${item.poster_path}`}
-                    alt={item.title || item.name}
-                  />
-                  <Character>
-                  {item.character || item.job.join(", ")}                  
-                  </Character>
-                </Card>
-              ))
-            : titleList.map((item, index) => (
-                <Card
-                  key={index}
-                  onClick={(event) =>
-                    handleRowClick(event, item.media_type, item.id)
-                  }
-                >
-                  <Image
-                    src={`https://image.tmdb.org/t/p/w200${item.poster_path}`}
-                    alt={item.title || item.name}
-                  />
-                </Card>
-              ))}
+          {mediaType === "person"
+            ? groupedTitles.map((item, index) => {
+                const isFallback = !item.poster_path;
+
+                return (
+                  <Card
+                    key={index}
+                    onClick={(event) =>
+                      handleRowClick(event, item.media_type, item.id)
+                    }
+                  >
+                    {isFallback ? (
+                      <FallbackImage />
+                    ) : (
+                      <img
+                        src={`https://image.tmdb.org/t/p/w200${item.poster_path}`}
+                        alt={item.title || item.name}
+                        style={{ width: '100%', height: 'auto' }} // Ensure responsive image sizing
+                      />
+                    )}
+                    <Character>
+                      {item.character || item.job.join(", ")}
+                    </Character>
+                  </Card>
+                );
+              })
+            : titleList.map((item, index) => {
+                const isFallback = !item.poster_path;
+
+                return (
+                  <Card
+                    key={index}
+                    onClick={(event) =>
+                      handleRowClick(event, item.media_type, item.id)
+                    }
+                  >
+                    {isFallback ? (
+                      <FallbackImage />
+                    ) : (
+                      <img
+                        src={`https://image.tmdb.org/t/p/w200${item.poster_path}`}
+                        alt={item.title || item.name}
+                        style={{ width: '100%', height: 'auto' }}
+                      />
+                    )}
+                  </Card>
+                );
+              })}
         </Rail>
       </RailContainer>
     </Container>
