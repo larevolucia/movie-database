@@ -90,7 +90,11 @@ export default function ContentRail({ title, mediaType, data, length }) {
   const handleRowClick = useHandleRowClick();
   const titleList = length ? data.slice(0, length) : data;
   const groupedTitles = GroupJobs(titleList);
-
+  
+  if (data.length === 0) {
+    return null;
+  }
+  
   return (
     <Container>
       <Title>{title}</Title>
