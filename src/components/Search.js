@@ -43,21 +43,6 @@ export default function Search({ onSearch, query, onFormSubmit }) {
     [handleResponse]
   );
 
-  // useEffect(() => {
-  //   const queryParam = new URLSearchParams(location.search).get("query");
-  //   if (queryParam) {
-  //     setKeyword(queryParam);
-  //     fetchResults(queryParam);
-  //   }
-  // }, [location.search, fetchResults]);
-
-  // useEffect(() => {
-  //   if (keyword) {
-  //     navigate(`/?query=${keyword}`);
-  //     fetchResults(keyword);
-  //   }
-  // }, [keyword, navigate, fetchResults]);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     if (keyword) {
