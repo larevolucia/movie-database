@@ -179,8 +179,8 @@ function TitleDetails({ mediaType, details }) {
           </MovieInfo>
         )}
       </Details>
-      <PeopleRail title="Cast" data={cast} />
-      <PeopleRail title="Crew" data={groupedCrew} />
+      <PeopleRail title="Cast" data={cast} length={12} />
+      <PeopleRail title="Crew" data={groupedCrew} length={12} />
       {recommendations.length > 0 && (
         <ContentRail
           title="Recommendations"
