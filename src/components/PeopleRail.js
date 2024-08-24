@@ -119,9 +119,11 @@ export default function PeopleRail({ title, data, length }) {
     },
     [handleRowClick]
   );
+
   if (data.length === 0) {
     return null;
   }
+  
   return (
     <Container>
       <Title>{title}</Title>
