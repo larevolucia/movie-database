@@ -96,8 +96,11 @@ const Character = styled.h4`
 `;
 
 export default function PeopleRail({ title, data, length }) {
-  
+  const people = length ? data.slice(0, length) : data;
+
   console.log(data)
+  console.log(people)
+
   const mediaType = "person";
   // const groupedTitles = GroupJobs(data);
   const handleRowClick = useHandleRowClick();
@@ -116,12 +119,14 @@ export default function PeopleRail({ title, data, length }) {
     },
     [handleRowClick]
   );
-
+  if (data.length === 0) {
+    return null;
+  }
   return (
     <Container>
       <Title>{title}</Title>
       <RailContainer>
-        <Rail>{data.map((item, index) => (
+        <Rail>{people.map((item, index) => (
 <Card key={index}
                   onClick={(event) => fetchPerson(event, item.id)}>
 
