@@ -29,7 +29,6 @@ export default function Home({ queryParam, results }) {
       const shuffledTitles = shuffle(fetchedTitles); // Shuffle the fetched data
       const selectedTitles = shuffledTitles.slice(0, 4); // Select 4 random titles
       setHeroTitles(selectedTitles); // Update state with selected titles
-      console.log(selectedTitles); // Log the selected titles
     } catch (error) {
       console.error(error);
     }
