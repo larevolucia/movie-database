@@ -3,6 +3,9 @@ import React from "react";
 import useHandleRowClick from "../utils/useHandleRowClick";
 import Poster from "./Poster";
 import DateToYear from "../formatters/DateToYear";
+import imgNotFound from "../img/img_not_found.svg"
+
+
 
 export default function TitleList({ items }) {
   const handleRowClick = useHandleRowClick();
@@ -25,7 +28,9 @@ export default function TitleList({ items }) {
               first_air_date
             } = item;
 
-            const poster = `https://image.tmdb.org/t/p/w1280${poster_path}`;
+            const isFallback = !poster_path;
+
+            const poster = poster_path === null ? imgNotFound : `https://image.tmdb.org/t/p/w1280${poster_path}` ;
             const altText = `Poster of ${name || title}`;
 
             return (
@@ -34,8 +39,8 @@ export default function TitleList({ items }) {
                 onClick={(event) => handleRowClick(event, media_type, id)}
               >
                 <td className="image-cell">
-                  {poster_path && (
-                    <Poster imageUrl={poster} altText={altText} />
+                  {poster && (
+                    <Poster imageUrl={poster} altText={altText} isFallback={isFallback}/>
                   )}
                 </td>
                 <td>
