@@ -1,6 +1,7 @@
 import React from "react";
 import Headshot from "./Headshot";
 import useHandleRowClick from "../utils/useHandleRowClick";
+import headshotNotFound from "../img/headshot_not_found.svg"
 
 export default function PersonList({ items }) {
   const handleRowClick = useHandleRowClick();
@@ -22,7 +23,9 @@ export default function PersonList({ items }) {
               known_for
             } = item; // Deconstructing each item in the data array
 
-            const headshot = `https://image.tmdb.org/t/p/w1280${profile_path}`;
+            const isFallback = !profile_path
+            const headshot = profile_path === null ? headshotNotFound : `https://image.tmdb.org/t/p/w1280${profile_path}`;
+
             const altText = `Poster of ${name || original_name}`;
             const knownForTitles = known_for
               ? known_for
@@ -40,8 +43,8 @@ export default function PersonList({ items }) {
                 onClick={(event) => handleRowClick(event, media_type, id)}
               >
                 <td className="table-cell">
-                  {profile_path !== null && profile_path !== undefined && (
-                    <Headshot imageUrl={headshot} altText={altText} />
+                  {(
+                    <Headshot imageUrl={headshot} altText={altText} isFallback={isFallback} />
                   )}
                 </td>
                 <td>
