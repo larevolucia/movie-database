@@ -50,6 +50,7 @@ const Info = styled.p`
   margin-top: 0.5em;
 `;
 
+
 function TitleDetails({ mediaType, details }) {
   const windowSize = useWindowSize();
   const [recommendations, setRecommendations] = useState([]);
@@ -73,6 +74,7 @@ function TitleDetails({ mediaType, details }) {
           name: item.name || item.title,
           media_type: item.media_type,
           poster_path: item.poster_path,
+          backdrop_path: item.backdrop_path,
         }));
         setRecommendations(formattedRecommendations);
       } catch (error) {
