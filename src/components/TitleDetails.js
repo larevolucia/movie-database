@@ -126,16 +126,17 @@ function TitleDetails({ mediaType, details }) {
         <HeaderInfo>
           <HeaderInfoTag>{mediaType}</HeaderInfoTag>
           <HeaderInfoTag>
-            {mediaType !== "movie" ? (
-              <>
-                <DateToYear fullDate={details.first_air_date} />-
-                <DateToYear fullDate={details.last_air_date} />
-              </>
-            ) : (
-              <DateToYear fullDate={details.release_date} />
-            )}
+              {mediaType !== "movie" ? (
+                <>
+                  <DateToYear fullDate={details.first_air_date} />-
+                  <DateToYear fullDate={details.last_air_date} />
+                </>
+              ) : (
+                details.release_date === "" ? details.status : (
+                  <DateToYear fullDate={details.release_date} />
+                )
+              )}
           </HeaderInfoTag>
-
           {mediaType !== "movie" ? (
             <HeaderInfoTag>{details.number_of_seasons} Seasons</HeaderInfoTag>
           ) : (
@@ -184,7 +185,7 @@ function TitleDetails({ mediaType, details }) {
       {recommendations.length > 0 && (
         <ContentRail
           title="Recommendations"
-          mediaType={mediaType}
+          pageType={mediaType}
           data={recommendations}
           length={12}
         />

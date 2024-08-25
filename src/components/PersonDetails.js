@@ -182,7 +182,7 @@ export default function PersonDetails() {
       {castTitles.length > 0 || crewTitles.length > 0 ? (
         <ContentRail
           title="Known For"
-          mediaType="person"
+          pageType="person"
           data={details.known_for_department === "Acting" ? castTitles : crewTitles}
           length={24}
         />

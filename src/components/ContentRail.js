@@ -86,7 +86,7 @@ const FallbackImage = styled.div`
   }
 `;
 
-export default function ContentRail({ title, mediaType, data, length }) {
+export default function ContentRail({ title, pageType, data, length }) {
   const handleRowClick = useHandleRowClick();
   const titleList = length ? data.slice(0, length) : data;
   const groupedTitles = GroupJobs(titleList);
@@ -100,11 +100,14 @@ export default function ContentRail({ title, mediaType, data, length }) {
       <Title>{title}</Title>
       <RailContainer>
         <Rail>
-          {mediaType === "person"
+          {pageType === "person"
             ? groupedTitles.map((item, index) => {
                 const isFallback = !item.poster_path;
                 const jobs = !item.job ? "N/A" : item.job.join(", ")
                 const character = item.character !== "" ? item.character : "N/A"
+
+                if (!item.poster_path) return null
+
                 return (
                   <Card
                     key={index}
@@ -129,6 +132,8 @@ export default function ContentRail({ title, mediaType, data, length }) {
               })
             : titleList.map((item, index) => {
                 const isFallback = !item.poster_path;
+
+                if (!item.poster_path) return null
 
                 return (
                   <Card
