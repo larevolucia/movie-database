@@ -149,7 +149,7 @@ export default function PeopleRail({ title, data, length }) {
       <RailContainer>
         <Rail>{people.map((item, index) => {
           const isFallback = !item.profile_path
-
+          const roles = !item.department ? "N/A" : item.department.join(", ")
           return (
         
           
@@ -164,7 +164,7 @@ export default function PeopleRail({ title, data, length }) {
                   {item.name}
                   </Name>
                   <Character>
-                 {item.character || item.department.join(", ")}
+                 {item.character || roles}
                   </Character>
                   </Card>)}               
                 )}
