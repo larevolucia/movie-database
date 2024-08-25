@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { apiEndpoint, getHeaders } from "../utils/apiConfig";
 import useWindowSize from "../hooks/useWindowSize";
-import ContentRail from "./ContentRail";
+// import ContentRail from "./ContentRail";
+import TileRail from "./TileRail";
 import PeopleRail from "./PeopleRail";
 import styled from "styled-components";
 import DateToYear from "../formatters/DateToYear";
@@ -185,12 +186,13 @@ function TitleDetails({ mediaType, details }) {
       <PeopleRail title="Cast" data={cast} length={12} />
       <PeopleRail title="Crew" data={groupedCrew} length={12} />
       {recommendations.length > 0 && (
-        <ContentRail
+        <TileRail
           title="Recommendations"
           pageType={mediaType}
           data={recommendations}
           length={12}
         />
+
       )}
     </div>
   );
