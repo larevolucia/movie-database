@@ -7,7 +7,7 @@ const useHandleRowClick = () => {
   return useCallback(
     (event, mediaType, id, personDetails) => {
       event.preventDefault();
-      console.log(`Navigating to /details/${mediaType}/${id}`);
+      // console.log(`Navigating to /details/${mediaType}/${id}`);
       navigate(`/details/${mediaType}/${id}`, { state: { personDetails } });
     },
     [navigate]

@@ -86,15 +86,18 @@ const FallbackImage = styled.div`
   }
 `;
 
+
 export default function ContentRail({ title, pageType, data, length }) {
   const handleRowClick = useHandleRowClick();
   const titleList = length ? data.slice(0, length) : data;
   const groupedTitles = GroupJobs(titleList);
+
   
   if (data.length === 0) {
     return null;
   }
-  
+
+    
   return (
     <Container>
       <Title>{title}</Title>
@@ -124,6 +127,7 @@ export default function ContentRail({ title, pageType, data, length }) {
                         style={{ width: '100%', height: 'auto' }} // Ensure responsive image sizing
                       />
                     )}
+                         
                     <Character>
                       {character || jobs}
                     </Character>
@@ -151,6 +155,7 @@ export default function ContentRail({ title, pageType, data, length }) {
                         style={{ width: '100%', height: 'auto' }}
                       />
                     )}
+                        
                   </Card>
                 );
               })}

@@ -4,7 +4,6 @@ import TitleList from "./TitleList";
 import PersonList from "./PersonList";
 
 export default function Results({ data, keyword }) {
-  console.log("Results data:", data);
   // Filter movies and TV shows
   const moviesAndTv = data.filter(
     (item) => item.media_type === "movie" || item.media_type === "tv"

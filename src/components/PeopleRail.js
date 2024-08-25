@@ -117,9 +117,6 @@ const FallbackHeadshot = styled.div`
 export default function PeopleRail({ title, data, length }) {
   const people = length ? data.slice(0, length) : data;
 
-  console.log(data)
-  console.log(people)
-
   const mediaType = "person";
   // const groupedTitles = GroupJobs(data);
   const handleRowClick = useHandleRowClick();
