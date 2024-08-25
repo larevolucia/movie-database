@@ -103,7 +103,8 @@ export default function ContentRail({ title, mediaType, data, length }) {
           {mediaType === "person"
             ? groupedTitles.map((item, index) => {
                 const isFallback = !item.poster_path;
-
+                const jobs = !item.job ? "N/A" : item.job.join(", ")
+                const character = item.character !== "" ? item.character : "N/A"
                 return (
                   <Card
                     key={index}
@@ -121,7 +122,7 @@ export default function ContentRail({ title, mediaType, data, length }) {
                       />
                     )}
                     <Character>
-                      {item.character || item.job.join(", ")}
+                      {character || jobs}
                     </Character>
                   </Card>
                 );
