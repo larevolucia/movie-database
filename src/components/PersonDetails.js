@@ -4,6 +4,7 @@ import { apiEndpoint, getHeaders } from "../utils/apiConfig";
 import FormattedFullDate from "../formatters/FormattedFullDate";
 import useWindowSize from "../hooks/useWindowSize";
 import ContentRail from "./ContentRail";
+import headshotNotFound from "../img/headshot_not_found.svg"
 import styled from "styled-components";
 import axios from "axios";
 
@@ -53,6 +54,23 @@ const Toggler = styled.div`
   }
 `;
 
+const FallbackHeadshot = styled.div`
+  background-color: #dbdbdb;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image:  url(${headshotNotFound});
+      @media (min-width: 900px) {
+  width: 150px;
+  height: 150px;  }
+
+`;
+
+
 export default function PersonDetails() {
   const { state } = useLocation();
   const { id } = useParams();
@@ -62,7 +80,7 @@ export default function PersonDetails() {
   const isSmallScreen = windowSize.width <= 600;
   const [castTitles, setCastTitles] = useState([]);
   const [crewTitles, setCrewTitles] = useState([]);
-
+  
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
@@ -97,16 +115,19 @@ export default function PersonDetails() {
       fetchPersonDetails();
     }
   }, [fetchPersonDetails, state?.personDetails]);
-
+  
   useEffect(() => {
     fetchTitles();
   }, [fetchTitles]);
-
+  
   if (!details) return <div>Loading...</div>;
+
+  const isFallback = !details.profile_path
 
   const formattedBiography = details.biography
     .split("\n\n")
     .map((paragraph, index) => <p key={index}>{paragraph}</p>);
+
 
   return (
     <div>
@@ -116,24 +137,24 @@ export default function PersonDetails() {
       </Header>
       <Details>
         <div>
-          <Headshot
+          {isFallback ? <FallbackHeadshot/> :<Headshot
             src={`https://image.tmdb.org/t/p/w500${details.profile_path}`}
             alt={details.name}
-          />
+          />}
           {windowSize.width <= 600 && (
             <PersonalInfo>
-              <Info>
-                <strong>Born</strong>{" "}
-                <FormattedFullDate fullDate={details.birthday} />
-              </Info>
-              <Info>
+              {details.birthday !== null ?<Info>
+                 <strong>Born</strong>{" "}
+                <FormattedFullDate fullDate={details.birthday} /> 
+              </Info>: null}
+              {details.place_of_birth !== null ? <Info>
                 <strong>Place of birth</strong> {details.place_of_birth}
-              </Info>
+              </Info> : null}
             </PersonalInfo>
           )}
         </div>
 
-        <Biography>
+        {details.biography !== "" ? <Biography>
           {isSmallScreen
             ? isExpanded
               ? formattedBiography
@@ -145,16 +166,16 @@ export default function PersonDetails() {
               {isExpanded ? "See Less" : "See More"}
             </Toggler>
           )}
-        </Biography>
+        </Biography>: <Biography>No details available.</Biography>}
         {windowSize.width > 600 && (
           <PersonalInfo>
-            <Info>
+            {details.birthday !== null ?<Info>
               <strong>Born</strong>{" "}
               <FormattedFullDate fullDate={details.birthday} />
-            </Info>
-            <Info>
+            </Info>: null}
+            {details.place_of_birth !== null ? <Info>
               <strong>Place of birth</strong> {details.place_of_birth}
-            </Info>
+            </Info>: null}
           </PersonalInfo>
         )}
       </Details>
