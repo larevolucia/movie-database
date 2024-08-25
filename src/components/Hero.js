@@ -1,17 +1,11 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import useHandleRowClick from "../utils/useHandleRowClick";
 import "../styles/Hero.css";
 
 export default function Hero({ data }) {
-  const navigate = useNavigate();
-  // console.log("Trending Titles Data:", JSON.stringify(data, null, 2)); // Improved logging
-  if (data) {
-    const handleRowClick = (mediaType, id) => {
-      console.log(`Navigating to /details/${mediaType}/${id}`);
 
-      navigate(`/details/${mediaType}/${id}`);
-    };
-
+  const handleRowClick = useHandleRowClick();
+    if (data){
     return (
       <div id="carouselExampleIndicators" className="carousel slide">
         <div className="carousel-indicators">
@@ -36,7 +30,7 @@ export default function Hero({ data }) {
               <div
                 key={index}
                 className={`carousel-item ${index === 0 ? "active" : ""}`}
-                onClick={() => handleRowClick(media_type, id)}
+                onClick={(event) => handleRowClick(event, media_type, id)}
               >
                 <img
                   src={landscapeImg}
