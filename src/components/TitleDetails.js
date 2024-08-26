@@ -51,6 +51,16 @@ const Info = styled.p`
   margin-top: 0.5em;
 `;
 
+const Tagline = styled.p`
+  font-weight: 700;
+  margin-bottom: 10px;
+    font-size: 18px;
+
+
+   @media (min-width: 900px) {
+  font-size: 20px;
+  }
+`
 
 function TitleDetails({ mediaType, details }) {
   const windowSize = useWindowSize();
@@ -58,7 +68,7 @@ function TitleDetails({ mediaType, details }) {
   const [cast, setCast] = useState([]);
   const [crew, setCrew] = useState([]);
   const groupedCrew = GroupPeople(crew)
-  
+   console.log(details)
   const isFallback = !details.poster_path;
 
   const poster = details.poster_path === null ? imgNotFound : `https://image.tmdb.org/t/p/w500${details.poster_path}`
@@ -150,7 +160,7 @@ function TitleDetails({ mediaType, details }) {
       <Details>
         <div>
           <Poster
-            imageUrl={poster}
+            imageurl={poster}
             altText={mediaType === "movie" ? details.title : details.name}
             isFallback={isFallback}
           />
@@ -168,7 +178,8 @@ function TitleDetails({ mediaType, details }) {
             </MovieInfo>
           )}
         </div>
-        <Synopsis>{formattedOverview}</Synopsis>
+        <Synopsis>{!details.tagline ? null : <Tagline>{details.tagline}</Tagline>}
+        {formattedOverview}</Synopsis>
         {windowSize.width > 600 && (
           <MovieInfo>
             {details.genres && (
