@@ -61,7 +61,6 @@ export default function Home({ queryParam, results }) {
             media_type: "tv", 
           }));;
           setPopularTVTitles(fetchedPopularTVTitles); // Store the first 12 items
-          console.log(fetchedPopularTVTitles)
         } catch (error) {
           console.error(error);
         }
