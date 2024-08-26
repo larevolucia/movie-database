@@ -45,7 +45,6 @@ export default function Home({ queryParam, results }) {
           media_type: "movie", // Default or from API
         }));
         setNowPlayingTitles(fetchedNowPlayingTitles); // Store the first 12 items
-        console.log(fetchedNowPlayingTitles)
       } catch (error) {
         console.error(error);
       }
