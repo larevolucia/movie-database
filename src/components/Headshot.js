@@ -10,15 +10,15 @@ const FallbackHeadshot = styled.div`
   background-size: 50%;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: ${({ imageUrl }) => `url(${imageUrl})`};
+  background-image: ${({ imageurl }) => `url(${imageurl})`};
 `;
 
-export default function Heashot({ imageUrl, altText, isFallback
+export default function Heashot({ imageurl, altText, isFallback
 }) {
  
 return (
  isFallback ? (
-   <FallbackHeadshot imageUrl={imageUrl} />
- ) : <img src={imageUrl} alt={altText} className="img-headshot" />
+   <FallbackHeadshot imageurl={imageurl} />
+ ) : <img src={imageurl} alt={altText} className="img-headshot" />
 );
 }

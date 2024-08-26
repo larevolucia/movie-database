@@ -8,15 +8,15 @@ const FallbackPoster = styled.div`
   background-size: 50%;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: ${({ imageUrl }) => `url(${imageUrl})`};
+  background-image: ${({ imageurl }) => `url(${imageurl})`};
 `;
 
-export default function Poster({ imageUrl, altText, isFallback
+export default function Poster({ imageurl, altText, isFallback
  }) {
   
 return (
   isFallback ? (
-    <FallbackPoster imageUrl={imageUrl} />
-  ) : <img src={imageUrl} alt={altText} />
+    <FallbackPoster imageurl={imageurl} />
+  ) : <img src={imageurl} alt={altText} />
 );
 }

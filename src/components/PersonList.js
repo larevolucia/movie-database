@@ -44,7 +44,7 @@ export default function PersonList({ items }) {
               >
                 <td className="table-cell">
                   {(
-                    <Headshot imageUrl={headshot} altText={altText} isFallback={isFallback} />
+                    <Headshot imageurl={headshot} altText={altText} isFallback={isFallback} />
                   )}
                 </td>
                 <td>

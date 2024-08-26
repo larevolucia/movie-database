@@ -40,7 +40,7 @@ export default function TitleList({ items }) {
               >
                 <td className="image-cell">
                   {poster && (
-                    <Poster imageUrl={poster} altText={altText} isFallback={isFallback}/>
+                    <Poster imageurl={poster} altText={altText} isFallback={isFallback}/>
                   )}
                 </td>
                 <td>
