@@ -52,3 +52,20 @@
     }
   }
   
+  /* src/styles/Navigation.css */
+.user-icon {
+    font-size: 1.25rem;
+    color: #333;
+    margin-left: 1rem;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu {
+    min-width: 150px; /* Adjust the width of the dropdown */
+    text-align: center;
+  }
+  
+  .dropdown-item {
+    padding: 10px 20px; /* Add some padding for better touch targets */
+  }
+  
