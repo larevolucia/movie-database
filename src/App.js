@@ -6,8 +6,9 @@ import Home from "./components/Home";
 import About from "./About";
 import Details from "./components/Details";
 import Navigation from "./components/Navigation";
-import Auth from "./components/Auth";
+import SignUp from "./components/Signup.js";
 import UserDashboard from "./components/UserDashboard.js";
+import LogIn from "./components/Login.js";
 import { apiEndpoint, getHeaders } from "./utils/apiConfig.js";
 import axios from "axios";
 import {AuthProvider } from "./context/AuthContext"
@@ -73,7 +74,8 @@ function App() {
               element={<Home queryParam={queryParam} results={searchResults} />}
               />
             <Route path="/:query" element={<Home />} />
-            <Route path="/auth" element={<Auth />} />
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/signup" element={<SignUp />} />
             <Route path="/about" element={<About />} />
             <Route path="/details/:mediaType/:id" element={<Details />} />
               {/* Protected Routes */}

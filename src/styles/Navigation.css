@@ -47,7 +47,7 @@
     .fixed-elements {
       position: absolute;
       right: 15px; /* Align with padding */
-      top: 35px;
+      top: 33px;
       transform: translateY(-50%);
     }
   }

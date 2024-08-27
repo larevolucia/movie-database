@@ -16,7 +16,7 @@ const Navigation = ({ onSearch, query, onFormSubmit }) => {
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
-        navigate("/auth"); // Redirect to the sign-in page or any other page
+        navigate("/login"); // Redirect to the sign-in page or any other page
       })
       .catch((error) => {
         console.error("Error signing out:", error);
@@ -56,7 +56,7 @@ const Navigation = ({ onSearch, query, onFormSubmit }) => {
         <Dropdown.Item onClick={handleSignOut}>Sign Out</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
-  ) : (<Nav.Link as={Link} to="/auth" className="user-icon">
+  ) : (<Nav.Link as={Link} to="/login" className="user-icon">
     <FontAwesomeIcon icon={faUser} />
   </Nav.Link>)}
           </Dropdown>
