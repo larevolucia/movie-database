@@ -11,6 +11,7 @@ function Auth() {
     ui.start("#firebaseui-auth-container", {
       ...uiConfig,
       callbacks: {
+        ...uiConfig.callbacks,
         signInSuccessWithAuthResult: function(authResult, redirectUrl) {
           console.log("Sign-in successful!", authResult);
           console.log("Redirect URL:", redirectUrl);
@@ -24,9 +25,6 @@ function Auth() {
           }
           // Returning false prevents automatic redirect
           return false;
-        },
-        signInFailure: function(error) {
-          console.error("Sign-in failed:", error);
         },
       },
     });
