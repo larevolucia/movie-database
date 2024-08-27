@@ -15,7 +15,33 @@
     font-size: 1.5rem;
     color: #333;
   }
-  
+
+.firebaseui-title{
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.firebaseui-label{
+    padding:5px 10px;
+    font-weight: 500;
+}
+
+.firebaseui-input {    
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.firebaseui-form-actions {
+    margin:0 auto;
+}
+.firebaseui-button {
+    margin: 0 5px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
   .firebaseui-card-content {
     padding: 1rem;
   }

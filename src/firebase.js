@@ -25,7 +25,7 @@ export const auth = getAuth(app);
 
 // FirebaseUI configuration
 export const uiConfig = {
-  signInSuccessUrl: '/', // Redirect URL after successful sign-in
+  signInSuccessUrl: '/dashboard', // Redirect URL after successful sign-in
   signInOptions: [
     firebase.auth.EmailAuthProvider.PROVIDER_ID,
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
