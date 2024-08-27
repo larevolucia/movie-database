@@ -1,0 +1,54 @@
+/* src/styles/Navigation.css */
+
+.navigation-bar {
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1030;
+  }
+  
+  .fixed-top {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 0.5rem 1rem;
+  }
+  
+  .container {
+    max-width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: 5px 0;
+  }
+  
+  .user-icon {
+    font-size: 1.25rem;
+    color: #333;
+    margin-left: 1rem; /* Add margin to space out from the search bar */
+  }
+  
+  .ml-3 {
+    margin-left: 1rem;
+  }
+  
+  body {
+    padding-top: 70px; /* Adjust based on your navbar's height */
+  }
+  
+  /* Keep the search bar and user icon in place */
+  .fixed-elements {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Keep them on the right side */
+    flex-grow: 1; /* Allow them to take up remaining space */
+  }
+  
+  @media (max-width: 991px) {
+    /* Ensure search and user icon do not shift when the burger menu is expanded */
+    .fixed-elements {
+      position: absolute;
+      right: 15px; /* Align with padding */
+      top: 35px;
+      transform: translateY(-50%);
+    }
+  }
+  
