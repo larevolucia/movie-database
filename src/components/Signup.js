@@ -1,7 +1,7 @@
 // src/components/SignUp.js
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword, signInWithPopup  } from "firebase/auth";
-import { auth, googleProvider } from "../firebase";
+import { createUserWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
+import { auth, googleProvider } from "../firebase"; 
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -26,6 +26,7 @@ const SubContainer = styled.div`
 `
 
 const SignUp = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -36,7 +37,14 @@ const SignUp = () => {
     setError("");
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user; 
+
+      if (user) {
+        await updateProfile(user, {
+          displayName: name,
+        });
+      }
       navigate("/dashboard"); // Redirect to dashboard after successful sign-up
     } catch (err) {
       setError(err.message);
@@ -45,7 +53,9 @@ const SignUp = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      const userCredential = await signInWithPopup(auth, googleProvider);
+      // eslint-disable-next-line
+      const user = userCredential.user;
       navigate("/dashboard");
     } catch (err) {
       setError(err.message);
@@ -59,37 +69,50 @@ const SignUp = () => {
           <h2>Sign Up</h2>
           {error && <p style={{ color: "red" }}>{error}</p>}
           <form onSubmit={handleSignUp} >
-  <div className="row mb-2">
-      <div className="col-sm-10 offset-sm-1">
-          <input
-          type="email"
-          placeholder="E-mail address"
-          className="form-control "
-          value={email}
-          id="login-email"
-          onChange={(event) => setEmail(event.target.value)}
-          required
-          />
-      </div>
-  </div>
-  <div className="row mb-2">
-      <div className="col-sm-10 offset-sm-1">
-          <input
-          type="password"
-          placeholder="Password"
-          className="form-control"
-          value={password}
-          id="login-password"
-          onChange={(event) => setPassword(event.target.value)}
-          required
-          />
-      </div>
-  </div>
-  <div className="row mb-2">
-      <div className="col-sm-10 offset-sm-1"> 
-          <button type="submit" className="form-control btn btn-primary">Sign Up</button>
-      </div>
-  </div>
+            <div className="row mb-2">
+                <div className="col-sm-10 offset-sm-1">
+                  <input
+                    type="text"
+                    placeholder="Full Name"
+                    className="form-control"
+                    value={name}
+                    id="signup-name"
+                    onChange={(event) => setName(event.target.value)}
+                    required
+                  />
+                </div>
+              </div>    
+              <div className="row mb-2">
+                  <div className="col-sm-10 offset-sm-1">
+                      <input
+                      type="email"
+                      placeholder="E-mail address"
+                      className="form-control "
+                      value={email}
+                      id="login-email"
+                      onChange={(event) => setEmail(event.target.value)}
+                      required
+                      />
+                  </div>
+              </div>
+              <div className="row mb-2">
+                  <div className="col-sm-10 offset-sm-1">
+                      <input
+                      type="password"
+                      placeholder="Password"
+                      className="form-control"
+                      value={password}
+                      id="login-password"
+                      onChange={(event) => setPassword(event.target.value)}
+                      required
+                      />
+                  </div>
+              </div>
+              <div className="row mb-2">
+                  <div className="col-sm-10 offset-sm-1"> 
+                      <button type="submit" className="form-control btn btn-primary">Sign Up</button>
+                  </div>
+              </div>
 </form>
         </SubContainer>
         <SubContainer><button className="form-control btn btn-danger" onClick={handleGoogleSignIn}>Sign Up with Google</button> </SubContainer>
