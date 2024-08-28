@@ -70,7 +70,6 @@ function TitleDetails({ mediaType, details }) {
   const groupedCrew = GroupPeople(crew)
    console.log(details)
   const isFallback = !details.poster_path;
-
   const poster = details.poster_path === null ? imgNotFound : `https://image.tmdb.org/t/p/w500${details.poster_path}`
 
   useEffect(() => {
@@ -124,7 +123,7 @@ function TitleDetails({ mediaType, details }) {
 
   if (!details) return <div>Loading...</div>;
 
-  const formattedVoteAverage = Math.floor(details.vote_average).toFixed(1);
+  const formattedVoteAverage =  `${Math.round(details.vote_average * 10)}%`
 
   const formattedOverview = details.overview
     ? details.overview.split("\n\n").map((paragraph, index) => (
