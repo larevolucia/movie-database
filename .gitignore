@@ -8,7 +8,7 @@
 # testing
 /coverage
 /src/__tests__
-
+/src/components/AdminPanel.js
 
 # production
 /build

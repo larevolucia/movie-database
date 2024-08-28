@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { apiEndpoint, getHeaders } from "../utils/apiConfig";
 import useWindowSize from "../hooks/useWindowSize";
-// import ContentRail from "./ContentRail";
 import TileRail from "./TileRail";
 import PeopleRail from "./PeopleRail";
 import styled from "styled-components";
 import DateToYear from "../formatters/DateToYear";
 import GroupPeople from "../formatters/GroupPeople";
+import FavoriteButton from "../actions/FavoriteButton"
 import Poster from "./Poster";
 import imgNotFound from "../img/img_not_found.svg"
 import axios from "axios";
@@ -38,7 +38,21 @@ const Details = styled.div`
   }
 `;
 
-const Synopsis = styled.div`
+const ActionList = styled.ul`
+  margin-bottom: 20px;
+  width: 100%;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`
+const Action = styled.li`
+  list-style: none;
+
+
+`
+
+const Overview = styled.div`
   width: 100%;
   padding: 0.5rem;
 `;
@@ -68,7 +82,6 @@ function TitleDetails({ mediaType, details }) {
   const [cast, setCast] = useState([]);
   const [crew, setCrew] = useState([]);
   const groupedCrew = GroupPeople(crew)
-   console.log(details)
   const isFallback = !details.poster_path;
   const poster = details.poster_path === null ? imgNotFound : `https://image.tmdb.org/t/p/w500${details.poster_path}`
 
@@ -177,8 +190,12 @@ function TitleDetails({ mediaType, details }) {
             </MovieInfo>
           )}
         </div>
-        <Synopsis>{!details.tagline ? null : <Tagline>{details.tagline}</Tagline>}
-        {formattedOverview}</Synopsis>
+
+        <Overview>        
+        <ActionList><Action><FavoriteButton movieId={details.id} movieDetails={details} mediaType={mediaType} /></Action>
+        </ActionList>
+        {!details.tagline ? null : <Tagline>{details.tagline}</Tagline>}
+        {formattedOverview}</Overview>
         {windowSize.width > 600 && (
           <MovieInfo>
             {details.genres && (
