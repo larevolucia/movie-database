@@ -26,6 +26,7 @@
     "react-google-button": "^0.8.0",
     "react-router-dom": "^6.24.1",
     "react-scripts": "5.0.1",
+    "react-toastify": "^10.0.5",
     "styled-components": "^6.1.11",
     "ts-jest": "^29.1.5",
     "web-vitals": "^4.2.3"
