@@ -13,7 +13,6 @@ import { apiEndpoint, getHeaders } from "./utils/apiConfig.js";
 import axios from "axios";
 import {AuthProvider } from "./context/AuthContext"
 import ProtectedRoute from "./components/ProtectedRoute"; 
-import AdminPanel from "./components/AdminPanel.js";
 
 function App() {
   const [searchResults, setSearchResults] = useState([]);
@@ -74,7 +73,6 @@ function App() {
               path="/"
               element={<Home queryParam={queryParam} results={searchResults} />}
               />
-            {/* <Route path="/admin" element={<AdminPanel />} /> */}
             <Route path="/:query" element={<Home />} />
             <Route path="/login" element={<LogIn />} />
             <Route path="/signup" element={<SignUp />} />
