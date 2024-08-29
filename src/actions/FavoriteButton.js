@@ -5,7 +5,7 @@ import { doc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 
-const FavoriteButton = ({ movieId, mediaType, movieDetails }) => {
+const FavoriteButton = ({ itemId, mediaType, itemDetails }) => {
   const { user } = useAuth();
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -13,7 +13,7 @@ const FavoriteButton = ({ movieId, mediaType, movieDetails }) => {
   useEffect(() => {
     const checkFavoriteStatus = async () => {
       if (user) {
-        const docRef = doc(db, "users", user.uid, "favorites", movieId.toString());
+        const docRef = doc(db, "users", user.uid, "lists", "favorites", mediaType, itemId.toString());
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           setIsFavorite(true);
@@ -21,7 +21,7 @@ const FavoriteButton = ({ movieId, mediaType, movieDetails }) => {
       }
     };
     checkFavoriteStatus();
-  }, [user, movieId]);
+  }, [user, itemId, mediaType]);
 
   const handleFavoriteToggle = async () => {
     if (!user) {
@@ -30,21 +30,21 @@ const FavoriteButton = ({ movieId, mediaType, movieDetails }) => {
     }
 
     try {
-      const docRef = doc(db, "users", user.uid, "favorites", movieId.toString());
+      const docRef = doc(db, "users", user.uid, "lists", "favorites", mediaType, itemId.toString());
 
       if (isFavorite) {
         // Remove from favorites
         await deleteDoc(docRef);
         setIsFavorite(false);
-        alert(`${movieDetails.title} has been removed from your favorites.`);
+        alert(`${itemDetails.title || itemDetails.name} has been removed from your favorites.`);
       } else {
         // Add to favorites
         await setDoc(docRef, {
-          ...movieDetails,
+          ...itemDetails,
           media_type: mediaType,  
         });
         setIsFavorite(true);
-        alert(`${movieDetails.title} has been added to your favorites.`);
+        alert(`${itemDetails.title || itemDetails.name} has been added to your favorites.`);
       }
     } catch (error) {
       console.error("Error updating favorites:", error);

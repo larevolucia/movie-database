@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 
 const useFavorites = () => {
   const { user } = useAuth();
-  const [favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState({ movie: [], tv: [], all: [] });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,11 +16,18 @@ const useFavorites = () => {
       }
 
       try {
-        const favoritesRef = collection(db, "users", user.uid, "favorites");
-        const querySnapshot = await getDocs(favoritesRef);
-        const favoritesData = querySnapshot.docs.map((doc) => doc.data());
+        const movieRef = collection(db, "users", user.uid, "lists", "favorites", "movie");
+        const tvRef = collection(db, "users", user.uid, "lists", "favorites", "tv");
 
-        setFavorites(favoritesData);
+        const [moviesSnapshot, tvSnapshot] = await Promise.all([getDocs(movieRef), getDocs(tvRef)]);
+        
+        const moviesData = moviesSnapshot.docs.map((doc) => doc.data());
+        const tvData = tvSnapshot.docs.map((doc) => doc.data());
+
+        // Combine the movies and TV data into one array
+        const allData = [...moviesData, ...tvData];
+
+        setFavorites({ movie: moviesData, tv: tvData, all: allData });
       } catch (error) {
         console.error("Error retrieving favorites:", error);
       } finally {

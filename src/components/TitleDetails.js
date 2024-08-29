@@ -192,7 +192,7 @@ function TitleDetails({ mediaType, details }) {
         </div>
 
         <Overview>        
-        <ActionList><Action><FavoriteButton movieId={details.id} movieDetails={details} mediaType={mediaType} /></Action>
+        <ActionList><Action><FavoriteButton itemId={details.id} itemDetails={details} mediaType={mediaType} /></Action>
         </ActionList>
         {!details.tagline ? null : <Tagline>{details.tagline}</Tagline>}
         {formattedOverview}</Overview>
