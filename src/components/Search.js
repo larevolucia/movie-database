@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 //import useDebounce from "../hooks/useDebounce";
+import "../styles/Search.css";
 import { apiEndpoint, getHeaders } from "../utils/apiConfig";
 import axios from "axios";
 
@@ -66,15 +67,15 @@ export default function Search({ onSearch, query, onFormSubmit }) {
       data-testid="search-form"
     >
       <input
-        className="form-control me-2"
+        className="form-control me-2 form-search"
         type="search"
-        placeholder="Search for movie, tv or cast"
+        placeholder="Search movie, tv or people"
         value={keyword}
         onChange={handleKeywordChange}
         aria-label="Search"
       />
       <button
-        className="btn btn-primary"
+        className="search-button"
         type="submit"
         data-testid="search-submit"
       >
