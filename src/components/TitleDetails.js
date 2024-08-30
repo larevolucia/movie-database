@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { apiEndpoint, getHeaders } from "../utils/apiConfig";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import useWindowSize from "../hooks/useWindowSize";
 import TileRail from "./TileRail";
 import PeopleRail from "./PeopleRail";
 import styled from "styled-components";
 import DateToYear from "../formatters/DateToYear";
 import GroupPeople from "../formatters/GroupPeople";
-import FavoriteButton from "../actions/FavoriteButton"
+import AddToListButton from "../actions/AddToListButton"
 import Poster from "./Poster";
 import imgNotFound from "../img/img_not_found.svg"
 import axios from "axios";
@@ -192,7 +193,7 @@ function TitleDetails({ mediaType, details }) {
         </div>
 
         <Overview>        
-        <ActionList><Action><FavoriteButton itemId={details.id} itemDetails={details} mediaType={mediaType} /></Action>
+        <ActionList><Action><AddToListButton itemId={details.id} itemDetails={details} mediaType={mediaType} listType="favorites" actionIcon={faHeart} /></Action>
         </ActionList>
         {!details.tagline ? null : <Tagline>{details.tagline}</Tagline>}
         {formattedOverview}</Overview>
