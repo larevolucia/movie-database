@@ -42,9 +42,10 @@ const Details = styled.div`
 const ActionList = styled.ul`
   margin-bottom: 20px;
   width: 100%;
-  height: 68px;
+  height: 25px;
   display: flex;
   align-items: center;
+  padding:0;
   justify-content: flex-start;
 `
 const Action = styled.li`
