@@ -6,7 +6,7 @@ import useLists from "../hooks/useLists";
 export default function UserDashboard() {
   const { user } = useAuth();
   const favorites = useLists("favorites");
-  console.log(favorites); 
+  const watchlist = useLists("watchlist");
 
   return (
     <div>
@@ -16,6 +16,11 @@ export default function UserDashboard() {
         <ContentRail title="Your Favorites" pageType="user-dashboard" data={favorites} />
       ) : (
         <p>You don't have any favorites.</p>
+      )}
+      {watchlist.length > 0 ? (
+        <ContentRail title="Your Watchlist" pageType="user-dashboard" data={watchlist} />
+      ) : (
+        <p>You don't have anything on your watchlist.</p>
       )}
     </div>
   );

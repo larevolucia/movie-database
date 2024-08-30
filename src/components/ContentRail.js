@@ -88,7 +88,6 @@ const FallbackImage = styled.div`
 
 
 export default function ContentRail({ title, pageType, data, length }) {
-  console.log(data)
   const handleRowClick = useHandleRowClick();
   const titleList = length ? data.slice(0, length) : data;
   const groupedTitles = GroupJobs(titleList);

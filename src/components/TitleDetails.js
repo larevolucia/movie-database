@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { apiEndpoint, getHeaders } from "../utils/apiConfig";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart , faBookmark} from "@fortawesome/free-solid-svg-icons";
 import useWindowSize from "../hooks/useWindowSize";
 import TileRail from "./TileRail";
 import PeopleRail from "./PeopleRail";
@@ -49,6 +49,7 @@ const ActionList = styled.ul`
 `
 const Action = styled.li`
   list-style: none;
+  margin-right:20px;
 
 
 `
@@ -193,7 +194,9 @@ function TitleDetails({ mediaType, details }) {
         </div>
 
         <Overview>        
-        <ActionList><Action><AddToListButton itemId={details.id} itemDetails={details} mediaType={mediaType} listType="favorites" actionIcon={faHeart} /></Action>
+        <ActionList>
+          <Action><AddToListButton itemId={details.id} itemDetails={details} mediaType={mediaType} listType="favorites" actionIcon={faHeart} /></Action>
+          <Action><AddToListButton itemId={details.id} itemDetails={details} mediaType={mediaType} listType="watchlist" actionIcon={faBookmark} /></Action>
         </ActionList>
         {!details.tagline ? null : <Tagline>{details.tagline}</Tagline>}
         {formattedOverview}</Overview>

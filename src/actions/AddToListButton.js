@@ -8,56 +8,68 @@ const AddToListButton = ({ itemId, listType, mediaType, itemDetails, actionIcon 
   const { user } = useAuth();
   const [isInList, setIsInList] = useState(false);
 
-  // Check if the movie is already in favorites when component mounts
   useEffect(() => {
-    const checkFavoriteStatus = async () => {
+    const checkListStatus = async () => {
       if (user) {
-        const docRef = doc(db, "users", user.uid, "items", itemId.toString());
-        const docSnap = await getDoc(docRef);
+        const itemRef = doc(db, "users", user.uid, "items", itemId.toString());
+        const docSnap = await getDoc(itemRef);
         if (docSnap.exists()) {
-          setIsInList(true);
+          const data = docSnap.data();
+          if (data.list_type === listType) {
+            setIsInList(true);
+          }
         }
       }
     };
-    checkFavoriteStatus();
-  }, [user, itemId]);
-  
+    checkListStatus();
+  }, [user, itemId, listType]);
 
   const handleListToggle = async () => {
     if (!user) {
-      alert("Please log in to manage your favorites.");
+      alert("Please log in to manage your lists.");
       return;
     }
-  
+
     try {
       const itemRef = doc(db, "users", user.uid, "items", itemId.toString());
       const docSnap = await getDoc(itemRef);
-  
+
       if (docSnap.exists()) {
-        // Remove from favorites
-        await deleteDoc(itemRef);
-        setIsInList(false);
-        alert(`${itemDetails.title || itemDetails.name} has been removed from your ${listType}.`);
+        const data = docSnap.data();
+        if (data.list_type === listType) {
+          // Remove from the specific list_type
+          await deleteDoc(itemRef);
+          setIsInList(false);
+          alert(`${itemDetails.title || itemDetails.name} has been removed from your ${listType}.`);
+        } else {
+          // Update or add with the new list_type
+          await setDoc(itemRef, {
+            ...itemDetails,
+            list_type: listType,
+            media_type: mediaType,
+          });
+          setIsInList(true);
+          alert(`${itemDetails.title || itemDetails.name} has been added to your ${listType}.`);
+        }
       } else {
-        // Add to favorites
+        // Add to list if it doesn't exist at all
         await setDoc(itemRef, {
           ...itemDetails,
           list_type: listType,
           media_type: mediaType,
         });
         setIsInList(true);
-        alert(`${itemDetails.title || itemDetails.name} has been added to your ${listType}}.`);
+        alert(`${itemDetails.title || itemDetails.name} has been added to your ${listType}.`);
       }
     } catch (error) {
-      console.error("Error updating favorites:", error);
+      console.error("Error updating list:", error);
     }
   };
-  
 
   return (
     <FontAwesomeIcon
       icon={actionIcon}
-      onClick={handleListToggle} // This triggers the action on click
+      onClick={handleListToggle}
       style={{ color: isInList ? "red" : "black", cursor: "pointer" }}
     />
   );
