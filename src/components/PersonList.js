@@ -38,7 +38,7 @@ export default function PersonList({ items }) {
             const knownForList = knownForTitles.join(", ");
 
             return (
-              <tr
+              <tr className="search-results"
                 key={index}
                 onClick={(event) => handleRowClick(event, media_type, id)}
               >

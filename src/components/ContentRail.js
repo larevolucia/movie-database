@@ -55,6 +55,9 @@ const Card = styled.div`
   width: 100px;
   margin-right: 20px;
 
+  &:hover {cursor: pointer;
+  }
+
   @media (min-width: 900px) {
     width: 160px;
   }

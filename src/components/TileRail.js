@@ -63,8 +63,11 @@ const Title = styled.h3`
 const Card = styled.div`
   flex: 0 0 auto;
   margin-right: 20px;
-  height: 150px;
+  height: 120px;
   width: auto;
+
+   &:hover {cursor: pointer;
+  }
   @media (min-width: 900px) {
     height: 240px;
   }

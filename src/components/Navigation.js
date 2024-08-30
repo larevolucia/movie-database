@@ -44,6 +44,7 @@ const Navigation = ({ onSearch, query, onFormSubmit }) => {
         {/* Search and User Icon */}
         <div className="fixed-elements d-flex align-items-center">
           <Search onSearch={onSearch} query={query} onFormSubmit={onFormSubmit} />
+
           <Dropdown align="end">
           {user ? (
     <Dropdown align="end">

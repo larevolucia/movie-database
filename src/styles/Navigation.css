@@ -38,16 +38,20 @@
   .fixed-elements {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    position: relative;
+    justify-content: flex-end; /* Keep them on the right side */
+    flex-grow: 1; /* Allow them to take up remaining space */
   }
   
   @media (max-width: 991px) {
-    .search-form {
-      top: 50px; /* Adjust based on your navbar's height */
+    /* Ensure search and user icon do not shift when the burger menu is expanded */
+    .fixed-elements {
+      position: absolute;
+      right: 15px; /* Align with padding */
+      top: 33px;
+      transform: translateY(-50%);
     }
   }
-
+  
   /* src/styles/Navigation.css */
 .user-icon {
     font-size: 1.25rem;

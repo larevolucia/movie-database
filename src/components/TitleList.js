@@ -4,6 +4,7 @@ import useHandleRowClick from "../utils/useHandleRowClick";
 import Poster from "./Poster";
 import DateToYear from "../formatters/DateToYear";
 import imgNotFound from "../img/img_not_found.svg"
+import "../styles/Results.css"
 
 
 
@@ -34,7 +35,7 @@ export default function TitleList({ items }) {
             const altText = `Poster of ${name || title}`;
 
             return (
-              <tr
+              <tr className="search-results"
                 key={index}
                 onClick={(event) => handleRowClick(event, media_type, id)}
               >

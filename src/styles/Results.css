@@ -67,3 +67,6 @@ img {
   padding: 3px 5px;
   border-radius: 5px;
 }
+
+/*Table*/
+.search-results:hover { cursor: pointer;}
