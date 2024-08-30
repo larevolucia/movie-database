@@ -8,3 +8,4 @@
     font-size: 3em;
   }
 }
+.carousel-item:hover {cursor: pointer;}
