@@ -9,7 +9,7 @@ const GoogleButtonWrapper = styled.button`
   -webkit-appearance: none;
   background-color: white;
   background-image: none;
-  border: 1px solid #747775;
+  border: 1px solid #dee2e6;
   border-radius: 20px;
   box-sizing: border-box;
   color: #1f1f1f;
